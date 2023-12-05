@@ -223,209 +223,210 @@
             </div>
         </div>
     </nav>
-
-        <h1>User Management</h1>
-        <p>This is a simple user management system.</p>
-    
-        <form method="post" action="/signup"> <!-- Change action to "/signup" for the signup route -->
+    <br><br><br><br><br>
+    <fieldset style="width: 300px;">
+        <form id="signupForm" method="post" action="/signup" onsubmit="return validateAndCreateAccount();">
             <!-- Input field for username -->
-            <label for="username">Username:</label>
-            <input type="text" name="username" required><br>
-        
+            <label for="txtNewUserName">Username:</label>
+            <input type="text" id="txtNewUserName" name="username" required><br>
+    
             <!-- Input field for password -->
-            <label for="password">Password:</label>
-            <input type="password" name="password" required><br>
-        
+            <label for="txtNewPassword">Password:</label>
+            <input type="password" id="txtNewPassword" name="password" required><br>
+    
             <!-- Input field for email -->
-            <label for="email">Email:</label>
-            <input type="email" name="email" required><br>
-        
+            <label for="txtEmail">Email:</label>
+            <input type="email" id="txtEmail" name="email" required><br>
+    
             <!-- Input field for phone -->
-            <label for="phone">Phone:</label>
-            <input type="text" name="phone" required><br>
-        
+            <label for="txtPhone">Phone:</label>
+            <input type="text" id="txtPhone" name="phone" required><br>
+    
             <!-- Input field for Access key -->
-            <label for="Access_key">Access Key:</label>
-            <input type="text" name="Access_key" required><br>
-        
+            <label for="txtAccessKey">Access Key:</label>
+            <input type="password" id="txtAccessKey" name="Access_key" required><br>
+    
             <!-- Submit button -->
             <button type="submit">Sign Up</button>
         </form>
+    </fieldset>
     
-        <!-- Add more components as needed for your signup/login page -->
-        </fieldset>
 
     <br><br>
 
     <!-- Login Section -->
     <fieldset style="width: 300px;">
         <legend>Login</legend>
-        <form id="loginForm" onsubmit="return validateLogin();" action="find.html" method="post">
-            <!--<label for="txtUserName" style="font-size: 0.9em;">Username:</label>-->
-            <input type="text" placeholder="Username" id="txtUserName" style="width: 80%;" required>
+        <form id="loginForm" action="/login" method="post">
+            <input type="text" placeholder="Username" name="username" style="width: 80%;" required>
             <br>
-            <!--<label for="txtLoginPassword" style="font-size: 0.9em;">Password:</label>-->
-            <div class = "password-container">
-                <input type="password" placeholder="Password" id="txtLoginPassword" class="password-input" style="width: 100%; padding-right: 30px;"  required>
+            <div class="password-container">
+                <input type="password" placeholder="Password" name="password" class="password-input" style="width: 100%; padding-right: 30px;" required>
                 <img src="assets/img/eye-close.png" class="password-icon" id="btnShowLogin" onclick="toggleLoginPassword();">
-                <!--<button type="button" id="btnShowLogin" onclick="toggleLoginPassword();" style="margin-left: 5px; padding: 5px;">Show</button>-->
             </div>
             
             <button class="button-75" role="button" type="submit"><span class="text">Login</span></button>
             <button class="button-75" role="button" onclick="resetLoginForm();"><span class="text">Reset</span></button>
-            <!--<button type="submit">Login</button>-->
-            <!--<button type="button" onclick="resetLoginForm();">Reset</button>-->
         </form>
     </fieldset>
-    <br><br>
-
- 
-
+    
     <script>
+        // Add the toggleLoginPassword function if not already defined
+        function toggleLoginPassword() {
+            let loginPasswordInput = document.getElementById("txtLoginPassword");
+            let eyeIcon = document.getElementById("btnShowLogin");
+    
+            if (loginPasswordInput.type === "password") {
+                loginPasswordInput.type = "text";
+                eyeIcon.src = "assets/img/eye-open.png";
+            } else {
+                loginPasswordInput.type = "password";
+                eyeIcon.src = "assets/img/eye-close.png";
+            }
+        }
+    
+        function resetLoginForm() {
+            document.getElementById("loginForm").reset();
+            // Reset any additional elements or messages if needed
+        }
+    
         let bShowNew = false;
         let bShowLogin = false;
-
+    
         // Array to store user data
         var userData = [];
-
+    
         function toggleNewPassword() {
-    let newPasswordInput = document.getElementById("txtNewPassword");
-    let eyeIcon = document.getElementById("btnShowNew");
-
-    if (bShowNew) {
-        newPasswordInput.type = "password";
-        eyeIcon.src = "assets/img/eye-close.png";
-    } else {
-        newPasswordInput.type = "text";
-        eyeIcon.src = "assets/img/eye-open.png";
-    }
-
-    bShowNew = !bShowNew;
-}
-
-function toggleLoginPassword() {
-    let loginPasswordInput = document.getElementById("txtLoginPassword");
-    let eyeIcon = document.getElementById("btnShowLogin");
-
-    if (bShowLogin) {
-        loginPasswordInput.type = "password";
-        eyeIcon.src = "assets/img/eye-close.png";
-    } else {
-        loginPasswordInput.type = "text";
-        eyeIcon.src = "assets/img/eye-open.png";
-    }
-
-    bShowLogin = !bShowLogin;
-}
-
-
+            let newPasswordInput = document.getElementById("txtNewPassword");
+            let eyeIcon = document.getElementById("btnShowNew");
+    
+            if (bShowNew) {
+                newPasswordInput.type = "password";
+                eyeIcon.src = "assets/img/eye-close.png";
+            } else {
+                newPasswordInput.type = "text";
+                eyeIcon.src = "assets/img/eye-open.png";
+            }
+    
+            bShowNew = !bShowNew;
+        }
+    
+        function toggleLoginPassword() {
+            let loginPasswordInput = document.getElementById("txtLoginPassword");
+            let eyeIcon = document.getElementById("btnShowLogin");
+    
+            if (bShowLogin) {
+                loginPasswordInput.type = "password";
+                eyeIcon.src = "assets/img/eye-close.png";
+            } else {
+                loginPasswordInput.type = "text";
+                eyeIcon.src = "assets/img/eye-open.png";
+            }
+    
+            bShowLogin = !bShowLogin;
+        }
+    
         function validateAndCreateAccount() {
             let firstName = document.getElementById("txtFirstName").value;
             let lastName = document.getElementById("txtLastName").value;
             let newUserName = document.getElementById("txtNewUserName").value;
             let email = document.getElementById("txtEmail").value;
             let newPassword = document.getElementById("txtNewPassword").value;
-
+            let newAccessKey = document.getElementById("txtAccessKey").value;
+    
             // Validate email format
-            if (!email.includes('@')) {
-                alert("Invalid email format");
+            if (!email.includes('@') || !email.includes('.')) {
+                showAlert("Invalid email format");
                 return;
             }
-
+    
+            // Validate Access Key
+            if (newAccessKey !== 'ProvoAccessKey') {
+                showAlert("Invalid Access Key. Access Keys are provided to city and county employees of Provo.");
+                return;
+            }
+    
             // Validate password
             if (newPassword.length < 8 || !(/[a-zA-Z].*[a-zA-Z]/.test(newPassword) && /\d.*\d/.test(newPassword))) {
-                alert("Invalid password. Password must be at least 8 characters long and contain at least 2 letters and 2 numbers.");
+                showAlert("Invalid password. Password must be at least 8 characters long and contain at least 2 letters and 2 numbers.");
                 return;
             }
-
+    
             // Check for duplicate username
             if (isDuplicateUsername(newUserName)) {
-                alert("Invalid username. Username already exists.");
+                showAlert("Invalid username. Username already exists.");
                 return;
             }
-
-            // Add user data to the array
-            let newUser = {
-                firstName: firstName,
-                lastName: lastName,
-                username: newUserName,
-                email: email,
-                password: newPassword
-            };
-
-            userData.push(newUser);
-
-                // Reset the sign-up form
+    
+            // Reset the sign-up form
             resetSignUpForm();
-
-                    // Hide the signup form after showing the message
-        document.getElementById("signupForm").style.display = "none";
-        // Display success message or perform other actions
-        document.getElementById("outputMessage").innerHTML = "Account created for " + newUserName + ". <br><button class=\"button-75\" style=\"display: block; margin: 0 auto;\" onclick='returnToSignUp()'>Return to sign up</button>";
-
-
-
-
-
+    
+            // Hide the signup form after showing the message
+            document.getElementById("signupForm").style.display = "none";
+    
+            // Display success message or perform other actions
+            showAlert("Account created for " + newUserName + ".\nReturn to sign up");
         }
-
-                function returnToSignUp() {
+    
+        // Function to display alerts on the client side
+        function showAlert(message) {
+            alert(message);
+        }
+    
+        // Function to check if the email is in a valid format
+        function isValidEmail(email) {
+            // Use a regular expression for a basic email format check
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+    
+        function returnToSignUp() {
             // Clear the success message
-            document.getElementById("outputMessage").innerHTML = "";
+            showAlert("");
             // Show the sign-up form again
             document.getElementById("signupForm").style.display = "block";
             // Reset the sign-up form
             resetSignUpForm();
         }
-
+    
         function isDuplicateUsername(username) {
             return userData.some(user => user.username === username);
         }
-
+    
         function validateLogin() {
             let username = document.getElementById("txtUserName").value;
             let password = document.getElementById("txtLoginPassword").value;
-
+    
             // Check if the username exists in the database
             let user = userData.find(user => user.username === username);
-
+    
             if (!user) {
-                alert("Invalid username.");
+                showAlert("Invalid username.");
                 return false; // Prevent form submission
             }
-
+    
             // Check if the password is correct
             if (user.password !== password) {
-                alert("Incorrect password.");
+                showAlert("Incorrect password.");
                 return false; // Prevent form submission
             }
-
+    
             // If both username and password are correct, allow form submission
             return true;
         }
-
+    
         function resetSignUpForm() {
             document.getElementById("signupForm").reset();
     
-           
             // Reset any additional elements or messages if needed
         }
-
+    
         function resetLoginForm() {
             document.getElementById("loginForm").reset();
-            
+    
             // Reset any additional elements or messages if needed
         }
-
-
     </script>
-        
-        
-        
-        
   
-
-    </div>
     
 </body>
 </html>
