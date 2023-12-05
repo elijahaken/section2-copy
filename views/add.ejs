@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Add necessary meta tags -->
+    <title>Add Country</title>
+</head>
+<body>
+    <h1>Add Country</h1>
+    <form method="post" action="/add">
+        <!-- Input field for country_name -->
+        <label for="country_name">Country Name:</label>
+        <input type="text" name="country_name" required><br>
+
+        <!-- Input field for popular_site -->
+        <label for="popular_site">Popular Site:</label>
+        <input type="text" name="popular_site" required><br>
+
+        <!-- Input field for capital -->
+        <label for="capital">Capital:</label>
+        <input type="text" name="capital" required><br>
+
+        <!-- Input field for population -->
+        <label for="population">Population:</label>
+        <input type="number" name="population" required><br>
+
+        <!-- Input field for visited -->
+        <label for="visited">Visited:</label>
+        <select name="visited" required>
+            <option value="Y">Yes</option>
+            <option value="N">No</option>
+        </select><br>
+
+        <!-- Input field for covid_level -->
+        <label for="covid_level">COVID Level:</label>
+        <select name="covid_level" required>
+            <option value="H">High</option>
+            <option value="M">Medium</option>
+            <option value="L">Low</option>
+        </select><br>
+
+        <!-- Submit button -->
+        <button type="submit">Add Country</button>
+    </form>
+</body>
+</html>

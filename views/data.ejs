@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vacation</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            border: 1px solid #ddd;
+            margin: 5px 0;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+
+        strong {
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <h1>Vacation List</h1>
+    <p>These are the places and locations I have visited / want to visit!!.</p>
+
+    <% if (data.length > 0) { %>
+        <ul>
+            <% data.forEach(country => { %>
+                <li>
+                    <strong>Country:</strong> <%= country.country_name %><br>
+                    <strong>Popular Site:</strong> <%= country.popular_site %><br>
+                    <strong>Capital:</strong> <%= country.capital %><br>
+                    <strong>Population:</strong> <%= country.population %><br>
+                    <strong>Visited:</strong> <%= country.visited %><br>
+                    <strong>COVID Level:</strong> <%= country.covid_level %><br>
+                </li>
+            <% }); %>
+        </ul>
+    <% } else { %>
+        <p>No data available</p>
+    <% } %>
+
+    <a href="/add" style="text-decoration: none; padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">Add Country</a>
+
+    <form method="post" action="/deletecountry" style="margin-top: 10px;">
+        <label for="countryToDelete">Select Country to Delete:</label>
+        <select name="countryToDelete" required>
+            <% data.forEach(country => { %>
+                <option value="<%= country.country_id %>"><%= country.country_name %></option>
+            <% }); %>
+        </select>
+        <button type="submit" style="margin-left: 10px;">Delete Selected Country</button>
+    </form>
+      
+</body>
+</html>
