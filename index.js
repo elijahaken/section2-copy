@@ -81,12 +81,12 @@ app.post('/add', async (req, res) => {
 });
 
 // Route for rendering the signup page
-app.get('/login', (req, res) => {
+app.get('/signup', (req, res) => {
     res.render('login'); // Rendering the "login.ejs" file for the "/signup" route
 });
 
 // Route for processing signup data
-app.post('/login', async (req, res) => {
+app.post('/signup', async (req, res) => {
     try {
         const { username, password, email, phone, Access_key } = req.body;
 
