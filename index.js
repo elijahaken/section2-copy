@@ -136,8 +136,6 @@ app.post('/add', async (req, res) => {
         });
 
         await knex('socialmediaresponseinfo').insert({
-            socialmediaresponseid,
-            userid: userid_socialmediaresponse,
             smusage,
             averagetimesmperday,
             smwithoutpurpose,
