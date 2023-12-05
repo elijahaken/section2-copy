@@ -10,7 +10,7 @@ const knex = require('knex')({
         host: process.env.RDS_HOSTNAME || 'localhost',
         user: process.env.RDS_USERNAME || 'postgres',
         password: process.env.RDS_PASSWORD || 'Gl@cierlij73' || 'alozar',
-        database: process.env.RDS_DB_NAME || 'bucket_list',
+        database: process.env.RDS_DB_NAME || 'Provo',
         port: process.env.RDS_PORT || 5432,
         ssl: process.env.DB_SSL ? { rejectUnauthorized: false } : false,
     },
@@ -47,8 +47,8 @@ app.get('/data', async (req, res) => {
 // Route for displaying bucket list
 app.get('/bucket_list', async (req, res) => {
     try {
-        const items = await knex.select('*').from('bucket-list');
-        res.render('bucket_list', { items });
+        const items = await knex.select('*').from('provo');
+        res.render('Provo', { items });
     } catch (error) {
         console.error('Error fetching data:', error.message);
         res.status(500).send(`Internal Server Error: ${error.message}`);
@@ -62,15 +62,90 @@ app.get('/add', (req, res) => {
 
 app.post('/add', async (req, res) => {
     try {
-        const { country_name, popular_site, capital, population, visited, covid_level } = req.body;
+        // Assuming the incoming data has the same format for all tables
+        const {
+            city,
+            county,
+            state,
+            socialmediaplatform,
+            organizationaffiliation,
+            timestamp,
+            age,
+            gender,
+            relationshipstatus,
+            occupationstatus,
+            overalldistractionlevel,
+            overallworrylevel,
+            overallconcentrationlevel,
+            depressionfrequency,
+            interestindailyactivitiesfluctuate,
+            faceissuesregardingsleep,
+            socialmediaresponseid,
+            smusage,
+            averagetimesmperday,
+            smwithoutpurpose,
+            distractedbysm,
+            restlessfromnosm,
+            comparisonlevelsm,
+            feelingoncomparisons,
+            validationfrequencyfromsm
+        } = req.body;
 
-        await knex('country').insert({
-            country_name,
-            popular_site,
-            capital,
-            population,
-            visited,
-            covid_level,
+        // Insert data into each table
+        await knex('locationinfo').insert({
+            city,
+            county,
+            state,
+        });
+
+        await knex('socialmediaplatforminfo').insert({
+            socialmediaplatform, 
+        });
+
+        await knex('organizationaffinfo').insert({
+            organizationaffiliation,
+        });
+
+        await knex('userinfo').insert({
+            timestamp,
+            age,
+            gender,
+            relationshipstatus,
+            occupationstatus,
+        });
+
+        await knex('usersocialmediaplatforminfo').insert({
+            socialmediaplatformid: socialmediaplatformid_user,
+            userid: userid,
+        });
+
+        await knex('userorganizationaffiliationinfo').insert({
+            organizationaffiliationid: organizationaffiliationid_user,
+            userid: userid,
+        });
+
+        await knex('overallresponseinfo').insert({
+            overallresponseid,
+            userid: userid_overallresponse,
+            overalldistractionlevel,
+            overallworrylevel,
+            overallconcentrationlevel,
+            depressionfrequency,
+            interestindailyactivitiesfluctuate,
+            faceissuesregardingsleep,
+        });
+
+        await knex('socialmediaresponseinfo').insert({
+            socialmediaresponseid,
+            userid: userid_socialmediaresponse,
+            smusage,
+            averagetimesmperday,
+            smwithoutpurpose,
+            distractedbysm,
+            restlessfromnosm,
+            comparisonlevelsm,
+            feelingoncomparisons,
+            validationfrequencyfromsm,
         });
 
         res.redirect('/');
@@ -80,17 +155,52 @@ app.post('/add', async (req, res) => {
     }
 });
 
-// Route for rendering the signup page
+// Route for rendering login page
+app.get('/login', (req, res) => {
+    res.render('login'); // Rendering the "login.ejs" file for the "/login" route
+});
+
+// Route for rendering signup page
 app.get('/signup', (req, res) => {
     res.render('login'); // Rendering the "login.ejs" file for the "/signup" route
 });
 
+// Route for processing login data
+app.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+
+    try {
+        const result = await knex('Authentication').select('*').where({ username });
+
+        if (result.length > 0) {
+            const user = result[0];
+
+            // Compare the provided password with the hashed password in the database
+            const passwordMatch = await bcrypt.compare(password, user.password);
+
+            if (passwordMatch) {
+                // Passwords match, allow access
+                res.render('data', { user });
+            } else {
+                // Invalid password
+                res.status(401).send('Invalid username/password');
+            }
+        } else {
+            // No user found with the given username
+            res.status(401).send('Invalid username/password');
+        }
+    } catch (error) {
+        console.error('Error during login:', error.message);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
 // Route for processing signup data
 app.post('/signup', async (req, res) => {
-    try {
-        const { username, password, email, phone, Access_key } = req.body;
+    const { username, password, email, phone, Access_key } = req.body;
 
-        // Hash the password before storing it in the database
+    try {
+        // Signup logic
         const hashedPassword = await bcrypt.hash(password, 10);
 
         await knex('Authentication').insert({
@@ -98,15 +208,16 @@ app.post('/signup', async (req, res) => {
             password: hashedPassword,
             email,
             phone,
-            Access_key,
+            Access_key: hashedPassword,
         });
 
-        res.redirect('/');
+        res.redirect('/login'); // Redirect to login page after signup
     } catch (error) {
-        console.error('Error adding data:', error.message);
-        res.status(500).send(`Internal Server Error: ${error.message}`);
+        console.error('Error during signup:', error.message);
+        res.status(500).send('Internal Server Error');
     }
 });
+
 
 // Route for deleting data from the "country" table
 app.post('/deletecountry', (req, res) => {
