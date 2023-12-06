@@ -5,7 +5,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thank You!</title>
-    <!-- Add any additional styles or scripts if needed -->
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .thank-you-container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p {
+            color: #555;
+        }
+
+        #countdown {
+            color: #e44d26;
+            font-weight: bold;
+        }
+
+    </style>
 </head>
 
 <body>
@@ -14,24 +48,77 @@
         <p>Your feedback is valuable to us.</p>
         <p>You will be redirected back to the homepage in <span id="countdown">5</span> seconds.</p>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.2/tsparticles.confetti.bundle.min.js"></script>
     <script>
-        // Add any additional scripts if needed
-        let countdown = 5; // Set the initial countdown value
+
+        let countdown = 5;
 
         function updateCountdown() {
-            document.getElementById('countdown').innerText = countdown; // Update the countdown value in the HTML
+            //confettiParty();
+            document.getElementById('countdown').innerText = countdown;
             countdown--;
 
             if (countdown < 0) {
-                window.location.href = '/'; // Redirect to the landing page when countdown reaches 0
-            } else {
-                setTimeout(updateCountdown, 1000); // Update countdown every 1000 milliseconds (1 second)
+                // Trigger confetti when countdown reaches zero
+                window.location.href = '/';
+            } 
+            else if (countdown == 4)
+            {
+                confettiParty();
+                setTimeout(updateCountdown, 1000);
             }
-        }
+            else 
+            {
+                setTimeout(updateCountdown, 1000);
+            }
 
-        // Start the countdown when the page loads
+        }
+        function confettiParty() {
+                const count = 200,
+            defaults = {
+                origin: { y: 0.7 },
+            };
+
+            function fire(particleRatio, opts) {
+            confetti(
+                Object.assign({}, defaults, opts, {
+                particleCount: Math.floor(count * particleRatio),
+                })
+            );
+            }
+
+            fire(0.25, {
+            spread: 26,
+            startVelocity: 55,
+            });
+
+            fire(0.2, {
+            spread: 60,
+            });
+
+            fire(0.35, {
+            spread: 100,
+            decay: 0.91,
+            scalar: 0.8,
+            });
+
+            fire(0.1, {
+            spread: 120,
+            startVelocity: 25,
+            decay: 0.92,
+            scalar: 1.2,
+            });
+
+            fire(0.1, {
+            spread: 120,
+            startVelocity: 45,
+            });
+        
+        }
+        
         document.addEventListener('DOMContentLoaded', updateCountdown);
     </script>
 </body>
 
 </html>
+
