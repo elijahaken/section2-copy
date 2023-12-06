@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You!</title>
+    <!-- Add any additional styles or scripts if needed -->
+</head>
+
+<body>
+    <div class="thank-you-container">
+        <h1>Thank You for Submitting Your Response!</h1>
+        <p>Your feedback is valuable to us.</p>
+        <p>You will be redirected back to the homepage in <span id="countdown">5</span> seconds.</p>
+    </div>
+    <script>
+        // Add any additional scripts if needed
+        let countdown = 5; // Set the initial countdown value
+
+        function updateCountdown() {
+            document.getElementById('countdown').innerText = countdown; // Update the countdown value in the HTML
+            countdown--;
+
+            if (countdown < 0) {
+                window.location.href = '/'; // Redirect to the landing page when countdown reaches 0
+            } else {
+                setTimeout(updateCountdown, 1000); // Update countdown every 1000 milliseconds (1 second)
+            }
+        }
+
+        // Start the countdown when the page loads
+        document.addEventListener('DOMContentLoaded', updateCountdown);
+    </script>
+</body>
+
+</html>

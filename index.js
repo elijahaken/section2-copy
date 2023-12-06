@@ -9,7 +9,7 @@ const knex = require('knex')({
     connection: {
         host: process.env.RDS_HOSTNAME || 'localhost',
         user: process.env.RDS_USERNAME || 'postgres',
-        password: process.env.RDS_PASSWORD || 'Gl@cierlij73' || 'alozar',
+        password: process.env.RDS_PASSWORD || 'Gl@cierlij73',
         database: process.env.RDS_DB_NAME || 'Provo',
         port: process.env.RDS_PORT || 5432,
         ssl: process.env.DB_SSL ? { rejectUnauthorized: false } : false,
@@ -35,7 +35,7 @@ app.get('/', async (req, res) => {
 // Route for displaying data
 app.get('/data', async (req, res) => {
     try {
-        const data = await knex.select('*').from('country');
+        const data = await knex.select('*').from('userinfo');
         console.log('Data from PostgreSQL:', data);
         res.render('data', { data });
     } catch (error) {
@@ -60,16 +60,16 @@ app.get('/add', (req, res) => {
     res.render('add');
 });
 
+const { format } = require('date-fns'); // Import the format function from date-fns
+
 app.post('/add', async (req, res) => {
+    console.log('Received data:', req.body);
+
     try {
         // Assuming the incoming data has the same format for all tables
         const {
-            city,
-            county,
-            state,
-            socialmediaplatform,
-            organizationaffiliation,
-            timestamp,
+            socialmediaplatformid,
+            organizationaffiliationid,
             age,
             gender,
             relationshipstatus,
@@ -80,53 +80,61 @@ app.post('/add', async (req, res) => {
             depressionfrequency,
             interestindailyactivitiesfluctuate,
             faceissuesregardingsleep,
-            socialmediaresponseid,
             smusage,
             averagetimesmperday,
             smwithoutpurpose,
             distractedbysm,
             restlessfromnosm,
             comparisonlevelsm,
-            feelingoncomparisons,
-            validationfrequencyfromsm
+            feelingsoncomparisons,
+            validationfrequencyfromsm,
+            timestamp
         } = req.body;
 
-        // Insert data into each table
-        await knex('locationinfo').insert({
-            city,
-            county,
-            state,
-        });
-
-        await knex('socialmediaplatforminfo').insert({
-            socialmediaplatform, 
-        });
-
-        await knex('organizationaffinfo').insert({
-            organizationaffiliation,
-        });
-
-        await knex('userinfo').insert({
-            timestamp,
+        // Insert user information and retrieve the generated userid
+        const [userIdObject] = await knex('userinfo').insert({
             age,
             gender,
             relationshipstatus,
             occupationstatus,
-        });
+            timestamp: timestamp || format(new Date(), 'yyyy-MM-dd HH:mm:ss'), // Use provided timestamp or current time
+        }, 'userid');
 
+        // Extract the "userid" property from the returned object
+        const userId = userIdObject.userid;
+
+        
+
+       // Check if socialmediaplatformid is defined and an array
+        const parsedPlatformIds = socialmediaplatformid && Array.isArray(socialmediaplatformid)
+        ? socialmediaplatformid.map(id => parseInt(id))
+        : [];
+
+        // Insert each selected socialmediaplatformid separately
+        for (const platformId of parsedPlatformIds) {
         await knex('usersocialmediaplatforminfo').insert({
-            socialmediaplatformid: socialmediaplatformid_user,
-            userid: userid,
+            socialmediaplatformid: platformId,
+            userid: userId,
         });
+        }
 
-        await knex('userorganizationaffiliationinfo').insert({
-            organizationaffiliationid: organizationaffiliationid_user,
-            userid: userid,
-        });
+        // Parse organizationaffiliationid values as integers and insert each one separately
+        for (const affiliationId of organizationaffiliationid) {
+            const parsedAffiliationId = parseInt(affiliationId);
+
+            if (isNaN(parsedAffiliationId)) {
+                console.error('Invalid value for organizationaffiliation:', affiliationId);
+                throw new Error('Invalid value for organizationaffiliation');
+            }
+
+            await knex('userorganizationaffiliationinfo').insert({
+                userid: userId,
+                organizationaffiliationid: parsedAffiliationId,
+            });
+        }
 
         await knex('overallresponseinfo').insert({
-            overallresponseid,
-            userid: userid_overallresponse,
+            userid: userId,
             overalldistractionlevel,
             overallworrylevel,
             overallconcentrationlevel,
@@ -136,22 +144,29 @@ app.post('/add', async (req, res) => {
         });
 
         await knex('socialmediaresponseinfo').insert({
+            userid: userId,
             smusage,
             averagetimesmperday,
             smwithoutpurpose,
             distractedbysm,
             restlessfromnosm,
             comparisonlevelsm,
-            feelingoncomparisons,
+            feelingsoncomparisons,
             validationfrequencyfromsm,
         });
 
-        res.redirect('/');
+        res.redirect('/thankyou'); // Redirect to the desired page after successful form submission
+
     } catch (error) {
         console.error('Error adding data:', error.message);
         res.status(500).send(`Internal Server Error: ${error.message}`);
     }
 });
+
+app.get('/thankyou', (req, res) => {
+    res.render('thankyou'); // Assuming you're using a templating engine like EJS
+});
+
 
 // Route for rendering login page
 app.get('/login', (req, res) => {
@@ -193,20 +208,46 @@ app.post('/login', async (req, res) => {
     }
 });
 
+/// Route for processing signup data
 // Route for processing signup data
 app.post('/signup', async (req, res) => {
+    console.log('Received data:', req.body);
     const { username, password, email, phone, Access_key } = req.body;
 
     try {
+        // Check for a valid Access_key
+        if (Access_key !== 'ProvoCity') {
+            return res.status(400).send('Invalid Access_key. Account not created.');
+        }
+
+        // Check for duplicated username, email, or phone number
+        const existingUser = await knex('Authentication')
+            .select('username', 'email', 'phone')
+            .where('username', username)
+            .orWhere('email', email)
+            .orWhere('phone', phone)
+            .first();
+
+        if (existingUser) {
+            const duplicatedFields = [];
+            if (existingUser.username === username) duplicatedFields.push('Username');
+            if (existingUser.email === email) duplicatedFields.push('Email');
+            if (existingUser.phone === phone) duplicatedFields.push('Phone');
+
+            const errorMessage = `The following fields are already taken: ${duplicatedFields.join(', ')}`;
+            return res.status(400).send(errorMessage);
+        }
+
         // Signup logic
         const hashedPassword = await bcrypt.hash(password, 10);
+        const hashedAccessKey = await bcrypt.hash(Access_key, 10);
 
         await knex('Authentication').insert({
             username,
             password: hashedPassword,
             email,
             phone,
-            Access_key: hashedPassword,
+            Access_key: hashedAccessKey,
         });
 
         res.redirect('/login'); // Redirect to login page after signup
@@ -215,6 +256,8 @@ app.post('/signup', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
+
+
 
 
 // Route for deleting data from the "country" table
@@ -232,4 +275,4 @@ app.post('/deletecountry', (req, res) => {
 });
 
 // Start the server
-app.listen(port, () => console.log(`Server is running on port ${port}`));
+app.listen(port, () => console.log(`Server is running on port ${port} this is the outer index.js`));

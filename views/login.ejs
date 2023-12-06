@@ -215,7 +215,9 @@
             <a class="navbar-brand" href="/">
                 <img class="navbar-brand-img" src="/Untitled design.png" alt="Logo">
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span
+                    class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="/login">Log In/Sign Up</a></li>
@@ -224,209 +226,134 @@
         </div>
     </nav>
     <br><br><br><br><br>
-    <fieldset style="width: 300px;">
-        <form id="signupForm" method="post" action="/signup" onsubmit="return validateAndCreateAccount();">
-            <!-- Input field for username -->
-            <label for="txtNewUserName">Username:</label>
-            <input type="text" id="txtNewUserName" name="username" required><br>
-    
-            <!-- Input field for password -->
-            <label for="txtNewPassword">Password:</label>
-            <input type="password" id="txtNewPassword" name="password" required><br>
-    
-            <!-- Input field for email -->
-            <label for="txtEmail">Email:</label>
-            <input type="email" id="txtEmail" name="email" required><br>
-    
-            <!-- Input field for phone -->
-            <label for="txtPhone">Phone:</label>
-            <input type="text" id="txtPhone" name="phone" required><br>
-    
-            <!-- Input field for Access key -->
-            <label for="txtAccessKey">Access Key:</label>
-            <input type="password" id="txtAccessKey" name="Access_key" required><br>
-    
-            <!-- Submit button -->
-            <button type="submit">Sign Up</button>
-        </form>
-    </fieldset>
-    
 
-    <br><br>
+    <div class="form-container">
+        <!-- Sign Up Section -->
+        <fieldset style="width: 300px;">
+            <legend>Sign Up</legend>
+            <form id="signupForm" method="post" action="/signup" onsubmit="return validateAndCreateAccount();">
+                <label for="txtNewUserName">Username:</label>
+                <input type="text" id="txtNewUserName" name="username" required><br>
 
-    <!-- Login Section -->
-    <fieldset style="width: 300px;">
-        <legend>Login</legend>
-        <form id="loginForm" action="/login" method="post">
-            <input type="text" placeholder="Username" name="username" style="width: 80%;" required>
-            <br>
-            <div class="password-container">
-                <input type="password" placeholder="Password" name="password" class="password-input" style="width: 100%; padding-right: 30px;" required>
-                <img src="assets/img/eye-close.png" class="password-icon" id="btnShowLogin" onclick="toggleLoginPassword();">
-            </div>
-            
-            <button class="button-75" role="button" type="submit"><span class="text">Login</span></button>
-            <button class="button-75" role="button" onclick="resetLoginForm();"><span class="text">Reset</span></button>
-        </form>
-    </fieldset>
-    
+                <label for="txtNewPassword">Password:</label>
+                <input type="password" id="txtNewPassword" name="password" required><br>
+
+                <label for="txtEmail">Email:</label>
+                <input type="email" id="txtEmail" name="email" required><br>
+
+                <label for="txtPhone">Phone:</label>
+                <input type="text" id="txtPhone" name="phone" required><br>
+
+                <label for="txtAccessKey">Access Key:</label>
+                <input type="password" id="txtAccessKey" name="Access_key" required><br>
+
+                <button type="submit">Sign Up</button>
+            </form>
+        </fieldset>
+
+        <br><br>
+
+        <!-- Login Section -->
+        <fieldset style="width: 300px;">
+            <legend>Login</legend>
+            <form id="loginForm" action="/login" method="post" onsubmit="return validateLogin();">
+                <input type="text" placeholder="Username" name="username" style="width: 80%;" required><br>
+                <div class="password-container">
+                    <input type="password" placeholder="Password" name="password" class="password-input"
+                        style="width: 100%; padding-right: 30px;" required>
+                    <img src="assets/img/eye-close.png" class="password-icon" id="btnShowLogin"
+                        onclick="toggleLoginPassword();">
+                </div>
+
+                <button class="button-75" role="button" type="submit"><span class="text">Login</span></button>
+                <button class="button-75" role="button" onclick="resetLoginForm();"><span class="text">Reset</span>
+                </button>
+            </form>
+        </fieldset>
+    </div>
+
     <script>
-        // Add the toggleLoginPassword function if not already defined
         function toggleLoginPassword() {
-            let loginPasswordInput = document.getElementById("txtLoginPassword");
-            let eyeIcon = document.getElementById("btnShowLogin");
-    
-            if (loginPasswordInput.type === "password") {
-                loginPasswordInput.type = "text";
-                eyeIcon.src = "assets/img/eye-open.png";
-            } else {
-                loginPasswordInput.type = "password";
-                eyeIcon.src = "assets/img/eye-close.png";
-            }
+            // Your existing function
         }
-    
+
         function resetLoginForm() {
-            document.getElementById("loginForm").reset();
-            // Reset any additional elements or messages if needed
+            // Your existing function
         }
-    
+
         let bShowNew = false;
         let bShowLogin = false;
-    
-        // Array to store user data
+
         var userData = [];
-    
+
         function toggleNewPassword() {
-            let newPasswordInput = document.getElementById("txtNewPassword");
-            let eyeIcon = document.getElementById("btnShowNew");
-    
-            if (bShowNew) {
-                newPasswordInput.type = "password";
-                eyeIcon.src = "assets/img/eye-close.png";
-            } else {
-                newPasswordInput.type = "text";
-                eyeIcon.src = "assets/img/eye-open.png";
-            }
-    
-            bShowNew = !bShowNew;
+            // Your existing function
         }
-    
+
         function toggleLoginPassword() {
-            let loginPasswordInput = document.getElementById("txtLoginPassword");
-            let eyeIcon = document.getElementById("btnShowLogin");
-    
-            if (bShowLogin) {
-                loginPasswordInput.type = "password";
-                eyeIcon.src = "assets/img/eye-close.png";
-            } else {
-                loginPasswordInput.type = "text";
-                eyeIcon.src = "assets/img/eye-open.png";
-            }
-    
-            bShowLogin = !bShowLogin;
+            // Your existing function
         }
-    
+
         function validateAndCreateAccount() {
-            let firstName = document.getElementById("txtFirstName").value;
-            let lastName = document.getElementById("txtLastName").value;
             let newUserName = document.getElementById("txtNewUserName").value;
             let email = document.getElementById("txtEmail").value;
-            let newPassword = document.getElementById("txtNewPassword").value;
+            let phone = document.getElementById("txtPhone").value;
             let newAccessKey = document.getElementById("txtAccessKey").value;
-    
+
             // Validate email format
             if (!email.includes('@') || !email.includes('.')) {
                 showAlert("Invalid email format");
-                return;
+                return false;
             }
-    
+
             // Validate Access Key
-            if (newAccessKey !== 'ProvoAccessKey') {
+            if (newAccessKey !== 'ProvoCity') {
                 showAlert("Invalid Access Key. Access Keys are provided to city and county employees of Provo.");
-                return;
+                return false;
             }
-    
-            // Validate password
-            if (newPassword.length < 8 || !(/[a-zA-Z].*[a-zA-Z]/.test(newPassword) && /\d.*\d/.test(newPassword))) {
-                showAlert("Invalid password. Password must be at least 8 characters long and contain at least 2 letters and 2 numbers.");
-                return;
-            }
-    
+
             // Check for duplicate username
-            if (isDuplicateUsername(newUserName)) {
+            if (isDuplicateValue(newUserName, 'username')) {
                 showAlert("Invalid username. Username already exists.");
-                return;
+                return false;
             }
-    
+
+            // Check for duplicate email
+            if (isDuplicateValue(email, 'email')) {
+                showAlert("Invalid email. Email already exists.");
+                return false;
+            }
+
+            // Check for duplicate phone number
+            if (isDuplicateValue(phone, 'phone')) {
+                showAlert("Invalid phone number. Phone number already exists.");
+                return false;
+            }
+
             // Reset the sign-up form
             resetSignUpForm();
-    
+
             // Hide the signup form after showing the message
             document.getElementById("signupForm").style.display = "none";
-    
+
             // Display success message or perform other actions
             showAlert("Account created for " + newUserName + ".\nReturn to sign up");
+
+            // Prevent form submission (optional)
+            return false;
         }
-    
-        // Function to display alerts on the client side
+
         function showAlert(message) {
             alert(message);
         }
-    
-        // Function to check if the email is in a valid format
-        function isValidEmail(email) {
-            // Use a regular expression for a basic email format check
-            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-        }
-    
-        function returnToSignUp() {
-            // Clear the success message
-            showAlert("");
-            // Show the sign-up form again
-            document.getElementById("signupForm").style.display = "block";
-            // Reset the sign-up form
-            resetSignUpForm();
-        }
-    
-        function isDuplicateUsername(username) {
-            return userData.some(user => user.username === username);
-        }
-    
-        function validateLogin() {
-            let username = document.getElementById("txtUserName").value;
-            let password = document.getElementById("txtLoginPassword").value;
-    
-            // Check if the username exists in the database
-            let user = userData.find(user => user.username === username);
-    
-            if (!user) {
-                showAlert("Invalid username.");
-                return false; // Prevent form submission
-            }
-    
-            // Check if the password is correct
-            if (user.password !== password) {
-                showAlert("Incorrect password.");
-                return false; // Prevent form submission
-            }
-    
-            // If both username and password are correct, allow form submission
-            return true;
-        }
-    
+
         function resetSignUpForm() {
             document.getElementById("signupForm").reset();
-    
-            // Reset any additional elements or messages if needed
         }
-    
-        function resetLoginForm() {
-            document.getElementById("loginForm").reset();
-    
-            // Reset any additional elements or messages if needed
+
+        function validateLogin() {
+            // Your existing login validation logic
         }
     </script>
-  
-    
 </body>
 </html>

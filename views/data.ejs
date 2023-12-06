@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,14 +16,16 @@
             color: #333;
         }
 
-        ul {
-            list-style-type: none;
-            padding: 0;
+        .user-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
-        li {
+        .user-item {
+            flex: 0 0 calc(30% - 20px); /* Adjust the width and gap as needed for three columns */
             border: 1px solid #ddd;
-            margin: 5px 0;
+            margin: 5px;
             padding: 10px;
             background-color: #f9f9f9;
         }
@@ -32,28 +35,30 @@
         }
     </style>
 </head>
+
 <body>
-    <h1>Vacation List</h1>
-    <p>These are the places and locations I have visited / want to visit!!.</p>
+    <h1>User Info List</h1>
+    <p>These are the users who have taken the survey so far in Provo.</p>
 
     <% if (data.length > 0) { %>
-        <ul>
-            <% data.forEach(country => { %>
-                <li>
-                    <strong>Country:</strong> <%= country.country_name %><br>
-                    <strong>Popular Site:</strong> <%= country.popular_site %><br>
-                    <strong>Capital:</strong> <%= country.capital %><br>
-                    <strong>Population:</strong> <%= country.population %><br>
-                    <strong>Visited:</strong> <%= country.visited %><br>
-                    <strong>COVID Level:</strong> <%= country.covid_level %><br>
-                </li>
+        <div class="user-list">
+            <% data.slice(0, 10).forEach(userinfo => { %>
+                <div class="user-item">
+                    <strong>UserID:</strong> <%= userinfo.userid %><br>
+                    <strong>Time Created:</strong> <%= userinfo.timestamp %><br>
+                    <strong>Age:</strong> <%= userinfo.age %><br>
+                    <strong>Gender:</strong> <%= userinfo.gender %><br>
+                    <strong>Relationship Status:</strong> <%= userinfo.relationshipstatus %><br>
+                    <strong>Occupation:</strong> <%= userinfo.occupationstatus %><br>
+                    <strong>Location ID:</strong> <%= userinfo.locationid %><br>
+                </div>
             <% }); %>
-        </ul>
+        </div>
     <% } else { %>
         <p>No data available</p>
     <% } %>
 
-    <a href="/add" style="text-decoration: none; padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">Add Country</a>
+    <a href="/add" style="text-decoration: none; padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">Take the Survey</a>
 
     <form method="post" action="/deletecountry" style="margin-top: 10px;">
         <label for="countryToDelete">Select Country to Delete:</label>
