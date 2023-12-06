@@ -16,18 +16,28 @@
             color: #333;
         }
 
-        .user-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .user-item {
-            flex: 0 0 calc(30% - 20px); /* Adjust the width and gap as needed for three columns */
+        fieldset {
             border: 1px solid #ddd;
-            margin: 5px;
+            border-radius: 8px;
             padding: 10px;
             background-color: #f9f9f9;
+            overflow-y: auto;
+            max-height: 300px; /* Adjust the max-height as needed */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
         }
 
         strong {
@@ -40,35 +50,59 @@
     <h1>User Info List</h1>
     <p>These are the users who have taken the survey so far in Provo.</p>
 
-    <% if (data.length > 0) { %>
-        <div class="user-list">
-            <% data.slice(0, 10).forEach(userinfo => { %>
-                <div class="user-item">
-                    <strong>UserID:</strong> <%= userinfo.userid %><br>
-                    <strong>Time Created:</strong> <%= userinfo.timestamp %><br>
-                    <strong>Age:</strong> <%= userinfo.age %><br>
-                    <strong>Gender:</strong> <%= userinfo.gender %><br>
-                    <strong>Relationship Status:</strong> <%= userinfo.relationshipstatus %><br>
-                    <strong>Occupation:</strong> <%= userinfo.occupationstatus %><br>
-                    <strong>Location ID:</strong> <%= userinfo.locationid %><br>
-                </div>
-            <% }); %>
-        </div>
-    <% } else { %>
-        <p>No data available</p>
-    <% } %>
+    <fieldset>
+        <% if (user.length > 0) { %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>UserID</th>
+                        <th>Time Created</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                        <th>Relationship Status</th>
+                        <th>Occupation</th>
+                        <th>Location ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% user.forEach(userinfo => { %>
+                        <tr>
+                            <td><%= userinfo.userid %></td>
+                            <td><%= userinfo.timestamp %></td>
+                            <td><%= userinfo.age %></td>
+                            <td><%= userinfo.gender %></td>
+                            <td><%= userinfo.relationshipstatus %></td>
+                            <td><%= userinfo.occupationstatus %></td>
+                            <td><%= userinfo.locationid %></td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        <% } else { %>
+            <p>No user data available</p>
+        <% } %>
+    </fieldset>
+    
+    
+
+    <br>
+    <br>
 
     <a href="/add" style="text-decoration: none; padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">Take the Survey</a>
 
-    <form method="post" action="/deletecountry" style="margin-top: 10px;">
-        <label for="countryToDelete">Select Country to Delete:</label>
-        <select name="countryToDelete" required>
-            <% data.forEach(country => { %>
-                <option value="<%= country.country_id %>"><%= country.country_name %></option>
+    <br>
+    <br>
+
+    <form method="post" action="/deleteuser" style="margin-top: 10px;">
+        <label for="UserToDelete">Select User to Delete:</label>
+        <select name="userToDelete" required>
+            <% data.forEach(user => { %>
+                <option value="<%= user.userid %>"><%= user.userid %></option>
             <% }); %>
         </select>
-        <button type="submit" style="margin-left: 10px;">Delete Selected Country</button>
+        <button type="submit" style="margin-left: 10px;">Delete selected user</button>
     </form>
+    
 </body>
 
 </html>

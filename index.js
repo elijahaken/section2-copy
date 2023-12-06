@@ -1,8 +1,9 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const session = require('express-session');
 const port = process.env.PORT || 3000;
-const bcrypt = require('bcrypt'); // Added this line
+
 
 const knex = require('knex')({
     client: 'pg',
@@ -17,14 +18,28 @@ const knex = require('knex')({
 });
 
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views')); // Moved this line to the top
+app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session({
+    secret: 'ProvoCity',
+    resave: false,
+    saveUninitialized: false
+}));
+
+// Middleware to check if the user is authenticated
+const authenticateUser = (req, res, next) => {
+    if (req.session && req.session.user) {
+        return next();
+    } else {
+        res.redirect('/login');
+    }
+};
 
 // Route for the landing page
 app.get('/', async (req, res) => {
     try {
-        // Assuming this renders the landing page
         res.render('index');
     } catch (error) {
         console.error('Error rendering landing page:', error.message);
@@ -32,12 +47,15 @@ app.get('/', async (req, res) => {
     }
 });
 
-// Route for displaying data
-app.get('/data', async (req, res) => {
+// Protected route that requires authentication
+app.get('/data', authenticateUser, async (req, res) => {
     try {
         const data = await knex.select('*').from('userinfo');
-        console.log('Data from PostgreSQL:', data);
-        res.render('data', { data });
+        const datr = await knex.select('member_id', 'username', 'phone').from('Authentication');
+
+        console.log('data:', data);
+
+        res.render('data', { user: yourUserDataArray });
     } catch (error) {
         console.error('Error fetching or rendering data:', error.message);
         res.status(500).send(`Internal Server Error: ${error.message}`);
@@ -45,7 +63,7 @@ app.get('/data', async (req, res) => {
 });
 
 // Route for displaying bucket list
-app.get('/bucket_list', async (req, res) => {
+app.get('/bucket_list', authenticateUser, async (req, res) => {
     try {
         const items = await knex.select('*').from('provo');
         res.render('Provo', { items });
@@ -55,12 +73,9 @@ app.get('/bucket_list', async (req, res) => {
     }
 });
 
-// Route for adding data to the "country" table
 app.get('/add', (req, res) => {
     res.render('add');
 });
-
-const { format } = require('date-fns'); // Import the format function from date-fns
 
 app.post('/add', async (req, res) => {
     console.log('Received data:', req.body);
@@ -97,25 +112,23 @@ app.post('/add', async (req, res) => {
             gender,
             relationshipstatus,
             occupationstatus,
-            timestamp: timestamp || format(new Date(), 'yyyy-MM-dd HH:mm:ss'), // Use provided timestamp or current time
+            timestamp: timestamp || format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
         }, 'userid');
 
         // Extract the "userid" property from the returned object
         const userId = userIdObject.userid;
 
-        
-
-       // Check if socialmediaplatformid is defined and an array
+        // Check if socialmediaplatformid is defined and an array
         const parsedPlatformIds = socialmediaplatformid && Array.isArray(socialmediaplatformid)
-        ? socialmediaplatformid.map(id => parseInt(id))
-        : [];
+            ? socialmediaplatformid.map(id => parseInt(id))
+            : [];
 
         // Insert each selected socialmediaplatformid separately
         for (const platformId of parsedPlatformIds) {
-        await knex('usersocialmediaplatforminfo').insert({
-            socialmediaplatformid: platformId,
-            userid: userId,
-        });
+            await knex('usersocialmediaplatforminfo').insert({
+                socialmediaplatformid: platformId,
+                userid: userId,
+            });
         }
 
         // Parse organizationaffiliationid values as integers and insert each one separately
@@ -155,8 +168,7 @@ app.post('/add', async (req, res) => {
             validationfrequencyfromsm,
         });
 
-        res.redirect('/thankyou'); // Redirect to the desired page after successful form submission
-
+        res.redirect('/thankyou');
     } catch (error) {
         console.error('Error adding data:', error.message);
         res.status(500).send(`Internal Server Error: ${error.message}`);
@@ -164,21 +176,21 @@ app.post('/add', async (req, res) => {
 });
 
 app.get('/thankyou', (req, res) => {
-    res.render('thankyou'); // Assuming you're using a templating engine like EJS
+    res.render('thankyou');
 });
-
 
 // Route for rendering login page
 app.get('/login', (req, res) => {
-    res.render('login'); // Rendering the "login.ejs" file for the "/login" route
+    res.render('login');
 });
 
 // Route for rendering signup page
 app.get('/signup', (req, res) => {
-    res.render('login'); // Rendering the "login.ejs" file for the "/signup" route
+    res.render('login');
 });
 
-// Route for processing login data
+const { compare } = require('bcrypt');
+
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
@@ -188,18 +200,25 @@ app.post('/login', async (req, res) => {
         if (result.length > 0) {
             const user = result[0];
 
-            // Compare the provided password with the hashed password in the database
-            const passwordMatch = await bcrypt.compare(password, user.password);
+            // Check if the stored password is hashed
+            if (user.is_hashed) {
+                // Compare hashed password using bcrypt
+                const passwordMatch = await compare(password, user.password);
 
-            if (passwordMatch) {
-                // Passwords match, allow access
-                res.render('data', { user });
+                if (passwordMatch) {
+                    res.render('data', { user });
+                } else {
+                    res.status(401).send('Invalid username/password');
+                }
             } else {
-                // Invalid password
-                res.status(401).send('Invalid username/password');
+                // Compare non-hashed password
+                if (password === user.password) {
+                    res.render('data', { user });
+                } else {
+                    res.status(401).send('Invalid username/password');
+                }
             }
         } else {
-            // No user found with the given username
             res.status(401).send('Invalid username/password');
         }
     } catch (error) {
@@ -208,19 +227,16 @@ app.post('/login', async (req, res) => {
     }
 });
 
-/// Route for processing signup data
-// Route for processing signup data
+
+
 app.post('/signup', async (req, res) => {
-    console.log('Received data:', req.body);
-    const { username, password, email, phone, Access_key } = req.body;
+    const { Access_key, username, password, email, phone } = req.body;
 
     try {
-        // Check for a valid Access_key
         if (Access_key !== 'ProvoCity') {
             return res.status(400).send('Invalid Access_key. Account not created.');
         }
 
-        // Check for duplicated username, email, or phone number
         const existingUser = await knex('Authentication')
             .select('username', 'email', 'phone')
             .where('username', username)
@@ -238,19 +254,15 @@ app.post('/signup', async (req, res) => {
             return res.status(400).send(errorMessage);
         }
 
-        // Signup logic
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const hashedAccessKey = await bcrypt.hash(Access_key, 10);
-
         await knex('Authentication').insert({
             username,
-            password: hashedPassword,
+            password, // Store password in plaintext
             email,
             phone,
-            Access_key: hashedAccessKey,
+            Access_key
         });
 
-        res.redirect('/login'); // Redirect to login page after signup
+        res.redirect('/login');
     } catch (error) {
         console.error('Error during signup:', error.message);
         res.status(500).send('Internal Server Error');
@@ -258,12 +270,10 @@ app.post('/signup', async (req, res) => {
 });
 
 
-
-
 // Route for deleting data from the "country" table
-app.post('/deletecountry', (req, res) => {
-    knex('country')
-        .where('country_id', req.body.countryToDelete)
+app.post('/deleteuser', (req, res) => {
+    knex('userinfo')
+        .where('userid', req.body.userToDelete)
         .del()
         .then(() => {
             res.redirect('/');
@@ -274,5 +284,6 @@ app.post('/deletecountry', (req, res) => {
         });
 });
 
+
 // Start the server
-app.listen(port, () => console.log(`Server is running on port ${port} this is the outer index.js`));
+app.listen(port, () => console.log(`Server is running on port ${port}`));
