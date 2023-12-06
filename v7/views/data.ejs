@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vacation</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        fieldset {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            overflow-y: auto;
+            max-height: 300px; /* Adjust the max-height as needed */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        strong {
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>User Info List</h1>
+    <p>These are the users who have taken the survey so far in Provo.</p>
+
+    <fieldset>
+        <% if (user.length > 0) { %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>UserID</th>
+                        <th>Time Created</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                        <th>Relationship Status</th>
+                        <th>Occupation</th>
+                        <th>Location ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% user.forEach(userinfo => { %>
+                        <tr>
+                            <td><%= userinfo.userid %></td>
+                            <td><%= userinfo.timestamp %></td>
+                            <td><%= userinfo.age %></td>
+                            <td><%= userinfo.gender %></td>
+                            <td><%= userinfo.relationshipstatus %></td>
+                            <td><%= userinfo.occupationstatus %></td>
+                            <td><%= userinfo.locationid %></td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        <% } else { %>
+            <p>No user data available</p>
+        <% } %>
+    </fieldset>
+    
+    
+
+    <br>
+    <br>
+
+    <a href="/add" style="text-decoration: none; padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">Take the Survey</a>
+
+    <br>
+    <br>
+
+    <form method="post" action="/deleteuser" style="margin-top: 10px;">
+        <label for="UserToDelete">Select User to Delete:</label>
+        <select name="userToDelete" required>
+            <% data.forEach(user => { %>
+                <option value="<%= user.userid %>"><%= user.userid %></option>
+            <% }); %>
+        </select>
+        <button type="submit" style="margin-left: 10px;">Delete selected user</button>
+    </form>
+    
+</body>
+
+</html>
