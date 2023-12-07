@@ -47,41 +47,43 @@
 </head>
 
 <body>
-    <h1>User Info List</h1>
-    <p>These are the users who have taken the survey so far in Provo.</p>
+   <!-- Your EJS template (data.ejs) -->
+<h1>User Info List</h1>
+<p>These are the users who have taken the survey so far in Provo.</p>
 
-    <fieldset>
-        <% if (user.length > 0) { %>
-            <table>
-                <thead>
+<fieldset>
+    <% if (user.length > 0) { %>
+        <table>
+            <thead>
+                <tr>
+                    <th>UserID</th>
+                    <th>Time Created</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th>Relationship Status</th>
+                    <th>Occupation</th>
+                    <th>Location ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% user.forEach(userinfo => { %>
                     <tr>
-                        <th>UserID</th>
-                        <th>Time Created</th>
-                        <th>Age</th>
-                        <th>Gender</th>
-                        <th>Relationship Status</th>
-                        <th>Occupation</th>
-                        <th>Location ID</th>
+                        <td><%= userinfo.userid %></td>
+                        <td><%= userinfo.timestamp %></td>
+                        <td><%= userinfo.age %></td>
+                        <td><%= userinfo.gender %></td>
+                        <td><%= userinfo.relationshipstatus %></td>
+                        <td><%= userinfo.occupationstatus %></td>
+                        <td><%= userinfo.locationid %></td>
                     </tr>
-                </thead>
-                <tbody>
-                    <% user.forEach(userinfo => { %>
-                        <tr>
-                            <td><%= userinfo.userid %></td>
-                            <td><%= userinfo.timestamp %></td>
-                            <td><%= userinfo.age %></td>
-                            <td><%= userinfo.gender %></td>
-                            <td><%= userinfo.relationshipstatus %></td>
-                            <td><%= userinfo.occupationstatus %></td>
-                            <td><%= userinfo.locationid %></td>
-                        </tr>
-                    <% }); %>
-                </tbody>
-            </table>
-        <% } else { %>
-            <p>No user data available</p>
-        <% } %>
-    </fieldset>
+                <% }); %>
+            </tbody>
+        </table>
+    <% } else { %>
+        <p>No user data available</p>
+    <% } %>
+</fieldset>
+
     
     
 
@@ -96,12 +98,14 @@
     <form method="post" action="/deleteuser" style="margin-top: 10px;">
         <label for="UserToDelete">Select User to Delete:</label>
         <select name="userToDelete" required>
-            <% data.forEach(user => { %>
+            <% [user].forEach(user => { %>
                 <option value="<%= user.userid %>"><%= user.userid %></option>
             <% }); %>
         </select>
         <button type="submit" style="margin-left: 10px;">Delete selected user</button>
     </form>
+    
+    
     
 </body>
 

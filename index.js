@@ -50,13 +50,16 @@ app.get('/', async (req, res) => {
 // Protected route that requires authentication
 app.get('/data', authenticateUser, async (req, res) => {
     try {
+        // Fetch data from the 'userinfo' table
         const data = await knex.select('*').from('userinfo');
-        const datr = await knex.select('member_id', 'username', 'phone').from('Authentication');
-
+        
+        // Log the fetched data to the console
         console.log('data:', data);
 
-        res.render('data', { user: yourUserDataArray });
+        // Render the 'data' EJS template and pass the fetched data
+        res.render('data', { user: data });
     } catch (error) {
+        // Handle errors
         console.error('Error fetching or rendering data:', error.message);
         res.status(500).send(`Internal Server Error: ${error.message}`);
     }
@@ -283,6 +286,7 @@ app.post('/deleteuser', (req, res) => {
             res.status(500).json({ err });
         });
 });
+
 
 
 // Start the server
