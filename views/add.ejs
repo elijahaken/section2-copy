@@ -61,7 +61,7 @@ align-items: center;
 
 h1 {
 text-align: center;
-color: #333;
+color: rgb(255, 255, 255);
 margin-top: 0;
 }
 
@@ -257,7 +257,7 @@ text-align: center;
         <br><br><br><br><br>
         <h1>Social Media Survey Questions</h1>
         <fieldset style="width: 500px;">
-            <form method="post" action="/add">
+            <form method="post" action="/add" id="surveyForm" onsubmit="return setTimestamp()">
                 <!-- Input field for age -->
                 <label for="age">What is your age?</label>
                 <input type="number" name="age" min="0" required><br><br>
@@ -291,7 +291,7 @@ text-align: center;
                 </select><br><br>
 
                 <!-- Input field for organization affiliations -->
-                <label for="organizationaffiliationid">What type of organizations are you affiliated with?</label>
+                <label for="organizationaffiliationid">What type of organizations are you affiliated with? (Select all that apply)</label>
                 <label><input type="checkbox" name="organizationaffiliationid" value="1"> School</label>
                 <label><input type="checkbox" name="organizationaffiliationid" value="2"> University </label>
                 <label><input type="checkbox" name="organizationaffiliationid" value="3"> Company</label>
@@ -319,7 +319,7 @@ text-align: center;
             <label><input type="checkbox" name="socialmediaplatformid" value="9"> Youtube </label>
             <label><input type="checkbox" name="socialmediaplatformid" value="5"> Reddit </label>
             <label><input type="checkbox" name="socialmediaplatformid" value="1"> Discord </label>
-            <label><input type="checkbox" name="socialmediaplatformid" value="10"> I dont use Social Media </label>
+            <label><input type="checkbox" name="socialmediaplatformid" value="10"> I don't use Social Media </label>
         </fieldset> <br>
 
         <fieldset style="width: 500px;">
@@ -435,7 +435,7 @@ text-align: center;
             <br><br>
 
             <!-- Following the previous question, how do you feel about these comparisons, generally speaking? -->
-            <label for="feelingsoncomparisons">Following the previous question, how do you feel about these comparisons, generally speaking? </label>
+            <label for="feelingsoncomparisons">Following the previous question, how do you feel about these comparisons, generally speaking? (1: Great; 5: Terrible)</label>
             <div class="range-container">
                 <input type="range" id="feelingsoncomparisons" name="feelingsoncomparisons" min="1" max="5" step="1" onchange="showSize(this.value);">
                 <p class="slider-value" id="sliderValues">
@@ -504,29 +504,36 @@ text-align: center;
             </div>
             <br><br>
 
-            <form action="/add" method="post" onsubmit="return setTimestamp()">
+            <form method="post" action="/add" id="surveyForm" onsubmit="return setTimestamp()">
+                <!-- Input fields and other survey questions go here -->
+    
                 <!-- Include a hidden input field for the timestamp -->
                 <input type="hidden" name="timestamp" id="timestamp">
+    
+                <!-- Include a button to submit the form -->
                 <button type="submit">Submit Survey</button>
-            
-                <script>
-                    function setTimestamp() {
-                        // Get the current date and time
-                        const currentTimestamp = new Date().toISOString().slice(0, 19).replace("T", " ");
-            
-                        // Set the value of the hidden input field
-                        document.getElementById("timestamp").value = currentTimestamp;
-            
-                        // Return false to prevent the form from submitting immediately
-                        return false;
-                    }
-                </script>
             </form>
+           
+            
+
         </form>
     </fieldset>
     </div>
 </div>
+
 <script>
+    function setTimestamp() {
+        // Get the current date and time
+        const currentTimestamp = new Date().toISOString().slice(0, 19).replace("T", "Z");
+
+        // Set the value of the hidden input field
+        document.getElementById("timestamp").value = currentTimestamp;
+
+        // Return true to allow the form to be submitted
+        return true;
+    }
 </script>
+
+
 </body>
 </html>

@@ -3,7 +3,7 @@ const app = express();
 const path = require('path');
 const session = require('express-session');
 const port = process.env.PORT || 3000;
-
+const router = express.Router();
 
 const knex = require('knex')({
     client: 'pg',
@@ -21,6 +21,10 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.use(session({
     secret: 'Gl@cierlij73',
@@ -47,18 +51,97 @@ app.get('/', async (req, res) => {
     }
 });
 
-// Protected route that requires authentication
-// Protected route that requires authentication
+// Route for displaying user data
 app.get('/data', authenticateUser, async (req, res) => {
     try {
-        const data = await knex.select('*').from('userinfo');
-        console.log('data:', data); // Corrected logging statement
-        res.render('data', { user: data });
-    } catch (error) {
-        console.error('Error fetching or rendering data:', error.message);
-        res.status(500).send(`Internal Server Error: ${error.message}`);
-    }
-});
+        const query = knex
+            .select(
+                'userinfo.userid as userid',
+                'userinfo.age as age',
+                'userinfo.gender as gender',
+                'userinfo.relationshipstatus as relationshipstatus',
+                'userinfo.occupationstatus as occupationstatus',
+                'locationinfo.city as city',
+                'locationinfo.county as county',
+                'locationinfo.state as state',
+                'locationinfo.locationid as locationid', // Add this line to select locationid
+                'usersocialmediaplatforminfo.socialmediaplatformid as socialmediaplatformid',
+                'socialmediaplatforminfo.socialmediaplatform as socialmediaplatform',
+                'userorganizationaffiliationinfo.organizationaffiliationid as organizationaffiliationid',
+                'organizationaffinfo.organizationaffiliation as organizationaffiliation',
+                'overallresponseinfo.overalldistractionlevel as overalldistractionlevel',
+                'overallresponseinfo.overallworrylevel as overallworrylevel',
+                'overallresponseinfo.overallconcentrationlevel as overallconcentrationlevel',
+                'overallresponseinfo.depressionfrequency as depressionfrequency',
+                'overallresponseinfo.interestindailyactivitiesfluctuate as interestindailyactivitiesfluctuate',
+                'overallresponseinfo.faceissuesregardingsleep as faceissuesregardingsleep',
+                'socialmediaresponseinfo.smusage as smusage',
+                'socialmediaresponseinfo.averagetimesmperday as averagetimesmperday',
+                'socialmediaresponseinfo.smwithoutpurpose as smwithoutpurpose',
+                'socialmediaresponseinfo.distractedbysm as distractedbysm',
+                'socialmediaresponseinfo.restlessfromnosm as restlessfromnosm',
+                'socialmediaresponseinfo.comparisonlevelsm as comparisonlevelsm',
+                'socialmediaresponseinfo.feelingsoncomparisons as feelingsoncomparisons',
+                'socialmediaresponseinfo.validationfrequencyfromsm as validationfrequencyfromsm',
+                'userinfo.timestamp as timestamp'
+            )
+            .from('userinfo')
+            .innerJoin('locationinfo', 'userinfo.locationid', 'locationinfo.locationid')
+            .innerJoin('usersocialmediaplatforminfo', 'userinfo.userid', 'usersocialmediaplatforminfo.userid')
+            .innerJoin('socialmediaplatforminfo', 'usersocialmediaplatforminfo.socialmediaplatformid', 'socialmediaplatforminfo.socialmediaplatformid')
+            .innerJoin('userorganizationaffiliationinfo', 'userinfo.userid', 'userorganizationaffiliationinfo.userid')
+            .innerJoin('organizationaffinfo', 'userorganizationaffiliationinfo.organizationaffiliationid', 'organizationaffinfo.organizationaffiliationid')
+            .innerJoin('overallresponseinfo', 'userinfo.userid', 'overallresponseinfo.userid')
+            .innerJoin('socialmediaresponseinfo', 'userinfo.userid', 'socialmediaresponseinfo.userid');
+
+            const data = await query;
+
+            // Create an array to store memberids with selected organizationaffiliationid values
+            const organizationAffiliationMembers = {};
+    
+            // Create an array to store memberids with selected socialmediaplatformid values
+            const socialMediaPlatformMembers = {};
+    
+            // Process user data to populate the arrays
+            data.forEach(userinfo => {
+                const memberId = userinfo.userid;
+    
+                // Check if organizationaffiliationid is selected
+                if (userinfo.organizationaffiliationid) {
+                    if (!organizationAffiliationMembers[memberId]) {
+                        organizationAffiliationMembers[memberId] = [];
+                    }
+                    organizationAffiliationMembers[memberId].push(userinfo.organizationaffiliationid);
+                }
+    
+                // Check if socialmediaplatformid is selected
+                if (userinfo.socialmediaplatformid) {
+                    if (!socialMediaPlatformMembers[memberId]) {
+                        socialMediaPlatformMembers[memberId] = [];
+                    }
+                    socialMediaPlatformMembers[memberId].push(userinfo.socialmediaplatformid);
+                }
+            });
+    
+            console.log('Organization Affiliation Members:', organizationAffiliationMembers);
+            console.log('Social Media Platform Members:', socialMediaPlatformMembers);
+    
+            // Set editUserId based on the first user in the data array
+            const editUserId = data.length > 0 ? data[0].userid : null;
+    
+            // Render the data.ejs template with the additional information
+            res.render('data', { user: data, organizationAffiliationMembers, socialMediaPlatformMembers, editUserId });
+    
+            // The misplaced line should be outside the forEach loop
+            if (!req.session.user) {
+                res.redirect('/login');
+                return;
+            }
+        } catch (error) {
+            console.error('Error fetching or rendering data:', error.message);
+            res.status(500).send(`Internal Server Error: ${error.message}`);
+        }
+    });
 
 
 
@@ -76,6 +159,8 @@ app.get('/bucket_list', authenticateUser, async (req, res) => {
 app.get('/add', (req, res) => {
     res.render('add');
 });
+
+const { format } = require('date-fns');
 
 app.post('/add', async (req, res) => {
     console.log('Received data:', req.body);
@@ -106,13 +191,19 @@ app.post('/add', async (req, res) => {
             timestamp
         } = req.body;
 
+        console.log('Received Timestamp:', timestamp);
+        
+        const formattedTimestamp = timestamp ? format(new Date(timestamp), 'yyyy-MM-dd HH:mm:ss') : null;
+        console.log('Formatted Timestamp:', formattedTimestamp);
+
         // Insert user information and retrieve the generated userid
         const [userIdObject] = await knex('userinfo').insert({
             age,
             gender,
             relationshipstatus,
             occupationstatus,
-            timestamp: timestamp || format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
+            timestamp: formattedTimestamp || format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
+
         }, 'userid');
 
         // Extract the "userid" property from the returned object
@@ -232,17 +323,15 @@ app.post('/login', async (req, res) => {
 });
 
 
-
-
 app.post('/signup', async (req, res) => {
-    const { Access_key, username, password, email, phone } = req.body;
+    const { access_key, username, password, email, phone } = req.body;
 
     try {
-        if (Access_key !== 'ProvoCity') {
-            return res.status(400).send('Invalid Access_key. Account not created.');
+        if (access_key !== 'ProvoCity') {
+            return res.status(400).send('Invalid access_key. Account not created.');
         }
 
-        const existingUser = await knex('Authentication')
+        const existingUser = await knex('authentication')
             .select('username', 'email', 'phone')
             .where('username', username)
             .orWhere('email', email)
@@ -259,12 +348,12 @@ app.post('/signup', async (req, res) => {
             return res.status(400).send(errorMessage);
         }
 
-        await knex('Authentication').insert({
+        await knex('authentication').insert({
             username,
             password, // Store password in plaintext
             email,
             phone,
-            Access_key
+            access_key
         });
 
         res.redirect('/login');
@@ -274,8 +363,61 @@ app.post('/signup', async (req, res) => {
     }
 });
 
+app.get('/data/edit/:userid', authenticateUser, async (req, res) => {
+    try {
+        const userId = req.params.userid;
 
-// Route for deleting data from the "country" table
+        // Fetch user data for the specified user ID
+        const userData = await knex('userinfo').where('userid', userId).first();
+
+        if (!userData) {
+            // Handle case where user is not found
+            return res.status(404).send('User not found');
+        }
+
+        // Render the edit form with the user data
+        res.render('edit', { user: userData });
+    } catch (error) {
+        console.error('Error fetching user data for edit:', error.message);
+        res.status(500).send(`Internal Server Error: ${error.message}`);
+    }
+});
+
+// Route for handling the edited data submission
+app.post('/data/edit/:userid', authenticateUser, async (req, res) => {
+    try {
+        const userId = req.params.userid;
+
+        // Retrieve the edited data from the request body
+        const editedAge = req.body.editedAge;
+        const editedGender = req.body.editedGender;
+
+        // Update the user data in the database
+        await knex('userinfo').where('userid', userId).update({
+            age: editedAge,
+            gender: editedGender,
+            // Add other fields as needed
+        });
+
+        // Log the edited fields
+        console.log(`User ${userId} edited data:`, {
+            age: editedAge,
+            gender: editedGender,
+            // Add other fields as needed
+        });
+
+        // Redirect back to the user data page after editing
+        res.redirect('/data');
+    } catch (error) {
+        console.error('Error updating user data:', error.message);
+        res.status(500).send(`Internal Server Error: ${error.message}`);
+    }
+});
+
+
+
+ 
+// Route for deleting data from the "userinfo" table
 app.post('/deleteuser', (req, res) => {
     knex('userinfo')
         .where('userid', req.body.userToDelete)
@@ -288,8 +430,6 @@ app.post('/deleteuser', (req, res) => {
             res.status(500).json({ err });
         });
 });
-
-
 
 // Start the server
 app.listen(port, () => console.log(`Server is running on port ${port}`));

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit User Data</title>
+</head>
+<body>
+    <h1>Edit User Data</h1>
+
+    <form action="/data/edit/<%= user.userid %>" method="post">
+        <!-- Your input fields for editing user data -->
+        <label for="editedAge">Age:</label>
+        <input type="text" id="editedAge" name="editedAge" value="<%= user.age %>">
+
+        <label for="editedGender">Gender:</label>
+        <input type="text" id="editedGender" name="editedGender" value="<%= user.gender %>">
+
+        <!-- Add other input fields as needed -->
+
+        <!-- Assuming you want a button to submit the edited data -->
+        <button type="submit">Save Changes</button>
+    </form>
+
+    <br>
+
+    <a href="/data">Back to User Data</a>
+</body>
+</html>
