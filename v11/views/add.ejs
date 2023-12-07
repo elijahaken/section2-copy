@@ -1,0 +1,532 @@
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Notusingthis.com</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+    
+<style>
+
+.range-container {
+margin-bottom: 20px;
+position: relative;
+}
+
+.slider-container {
+position: relative;
+}
+
+.slider-value {
+font-size: 16px;
+position: absolute;
+width: 120%; /* Adjust as needed for length */
+text-align: center;
+margin-top: 25px; /* Adjust as needed for spacing */
+display: flex;
+justify-content: space-between;
+left: -10%; /* Adjust to center the slider-value */
+}
+
+input[type="range"] {
+width: 100%; /* Adjust as needed for length */
+}
+
+
+body {
+font-family: Arial, sans-serif;
+background-color: #f4f4f4;
+margin: 0;
+padding: 0;
+background-image: url('assets/img/5.jpg');
+background-size: cover;
+background-attachment: fixed;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.survey-container {
+    text-align: center;
+}
+
+h1 {
+text-align: center;
+color: #333;
+margin-top: 0;
+}
+
+.ACC {
+display: flex;
+justify-content: center;
+align-items: flex-start;
+margin-top: 20px;
+}
+
+.form-container {
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column; /* Stack children vertically */
+/* height: 100vh; */
+}
+
+fieldset {
+border: 2px solid #ccc;
+border-radius: 8px;
+margin: 20px;
+padding: 10px;
+background-color: #fff;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+max-width: 800px; /* Adjust the maximum width as needed */
+}
+
+fieldset img {
+opacity: 0.5; /* You can adjust the opacity value (0 being fully transparent, 1 being fully visible) */
+}
+
+legend {
+font-weight: bold;
+font-size: 1.2em;
+color: #333;
+}
+
+label {
+display: block;
+margin-bottom: 8px;
+color: #555;
+}
+
+
+input {
+/* padding: 5px; */
+margin-bottom: 10px;
+box-sizing: border-box;
+font-size: 14px;
+border-radius:10px;
+background-color: #fafafa;
+border:0;
+box-shadow:0 0 4px rgba(0,0,0,0.3);
+transition: .3s box-shadow;
+}
+
+.input:hover {
+box-shadow:0 0 4px rgba(57, 56, 56, 0.5);
+}
+
+button {
+padding: 4px;
+font-size: 14px;
+background-color: #007bff;
+color: #fff;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+transition: background-color 0.3s ease;
+}
+
+button:hover {
+background-color: #0056b3;
+}
+
+
+#outputMessage {
+text-align: center;
+margin-top: 20px;
+color: orange;
+font-size: 18px; 
+}
+
+
+.password-container {
+position: relative;
+width: 80%;
+margin-bottom: 10px; 
+}
+
+.password-container input[type="password"] {
+width: 100%;
+padding-right: 30px;
+font-size: 14px;
+}
+
+.password-icon {
+position: absolute;
+top: 50%;
+transform: translateY(-50%);
+right: 5px;
+cursor: pointer;
+width: 20px; /* Adjust this as per the image size */
+}   
+
+.button-75 {
+align-items: center;
+background-image: linear-gradient(135deg, #817579 40%, #c4bdb9);
+border: 0;
+border-radius: 8px;
+box-sizing: border-box;
+color: #fff;
+cursor: pointer;
+display: flex;
+justify-content: center;
+font-family: "Codec cold",sans-serif;
+font-size: 12px;
+font-weight: 700;
+height: 54px;
+max-width: 100%;
+text-decoration: none;
+text-transform: uppercase;
+user-select: none;
+-webkit-user-select: none;
+touch-action: manipulation;
+padding: 18px;
+}
+
+.button-75:active {
+outline: 0;
+}
+
+.button-75:hover {
+outline: 0;
+background-image: linear-gradient(135deg, #b85979 40%, #c4bdb9);
+}
+
+.button-75 span {
+transition: all 200ms;
+}
+
+.button-75:hover span {
+transform: scale(.9);
+opacity: .75;
+}
+
+@media screen and (max-width: 991px) {
+.button-75 {
+font-size: 15px;
+height: 50px;
+}
+
+.button-75 span {
+line-height: 50px;
+}
+}
+
+.range-container {
+width: 80%;
+margin: 20px auto;
+text-align: center;
+width: calc(55% - 10px); 
+}
+
+.slider-value {
+display: flex;
+justify-content: space-between;
+margin-top: 0.5px; 
+}
+
+.slider-value span {
+flex: 1; /*Equal width for each span */
+text-align: center;
+}
+
+</style>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+        <div class="container px-5">
+            <a class="navbar-brand" href="/">
+                <img class="navbar-brand-img" src="/Untitled design.png" alt="Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/login">Log In/Sign Up</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="survey-container">
+        <br><br><br><br><br>
+        <h1>Social Media Survey Questions</h1>
+        <fieldset style="width: 500px;">
+            <form method="post" action="/add">
+                <!-- Input field for age -->
+                <label for="age">What is your age?</label>
+                <input type="number" name="age" min="0" required><br><br>
+
+                <!-- Input field for gender -->
+                <label for="gender">What is your gender?</label>
+                <select id="gender" name="gender" required>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="trans">Trans</option>
+                    <option value="nonbinary">Non-binary</option>
+                    <option value="other">Other</option>
+                </select><br><br>
+
+                <!-- Input field for relationship status -->
+                <label for="relationshipstatus">What is your relationship status? </label>
+                <select id="relationshipstatus" name="relationshipstatus" required>
+                    <option value="single">Single</option>
+                    <option value="dating">In a relationship</option>
+                    <option value="married">Married</option>
+                    <option value="divorced">Divorced</option>
+                </select><br><br>
+
+                <!-- Input field for occupation status -->
+                <label for="occupationstatus">What is your primary occupation status?</label>
+                <select id="occupationstatus" name="occupationstatus" required>
+                    <option value="school">School Student</option>
+                    <option value="university">University Student</option>
+                    <option value="worker">Salaried Worker</option>
+                    <option value="retired">Retired</option>
+                </select><br><br>
+
+                <!-- Input field for organization affiliations -->
+                <label for="organizationaffiliationid">What type of organizations are you affiliated with?</label>
+                <label><input type="checkbox" name="organizationaffiliationid" value="1"> School</label>
+                <label><input type="checkbox" name="organizationaffiliationid" value="2"> University </label>
+                <label><input type="checkbox" name="organizationaffiliationid" value="3"> Company</label>
+                <label><input type="checkbox" name="organizationaffiliationid" value="4"> Government </label>
+                <br>
+
+
+                <!-- Input field for social media use-->
+                <label for="smusage">Do you use social media?</label>
+                <select id="smusage" name="smusage" required>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select><br>
+        </fieldset><br>
+
+        <fieldset style="max-width: 800px">
+            <!-- Input field for social media platforms most used-->
+            <label for="socialmediaplatforms">What social media platforms do you commonly use?</label>
+            <label><input type="checkbox" name="socialmediaplatformid" value="3"> Instagram </label>
+            <label><input type="checkbox" name="socialmediaplatformid" value="2"> Facebook </label>
+            <label><input type="checkbox" name="socialmediaplatformid" value="6"> Snapchat </label>
+            <label><input type="checkbox" name="socialmediaplatformid" value="7"> TikTok </label>
+            <label><input type="checkbox" name="socialmediaplatformid" value="4"> Pinterest </label>
+            <label><input type="checkbox" name="socialmediaplatformid" value="8"> Twitter </label>
+            <label><input type="checkbox" name="socialmediaplatformid" value="9"> Youtube </label>
+            <label><input type="checkbox" name="socialmediaplatformid" value="5"> Reddit </label>
+            <label><input type="checkbox" name="socialmediaplatformid" value="1"> Discord </label>
+            <label><input type="checkbox" name="socialmediaplatformid" value="10"> I dont use Social Media </label>
+        </fieldset> <br>
+
+        <fieldset style="width: 500px;">
+            <!-- Input field for average time on social media-->
+            <label for="averagetimesmperday">What is the average time you spend on social media every day?</label>
+            <select id="averagetimesmperday" name="averagetimesmperday" required>
+                <option value="LessThanHour">Less than an Hour</option>
+                <option value="1-2hours">Between 1 and 2 hours</option>
+                <option value="2-3hours">Between 2 and 3 hours</option>
+                <option value="3-4hours">Between 3 and 4 hours</option>
+                <option value="4-5hours">Between 4 and 5 hours</option>
+                <option value="MoreThan5">More than 5 hours</option>
+            </select><br><br>
+
+            <h4>Please answer the following questions using this scale:<br>1 = never<br>2 = less than usual<br> 3 = sometimes<br>4 = most of the time<br> 5 = all the time</h4><br>
+
+            <!-- Input field for using social media without a purpose-->
+            <label for="smwithoutpurpose">How often do you find yourself using social media without a specific purpose?</label>
+            <div class="range-container">
+                <input type="range" id="smwithoutpurpose" name="smwithoutpurpose" min="1" max="5" step="1" onchange="showSize(this.value);">
+                <p class="slider-value" id="sliderValues">
+                    <span>1</span>
+                    <span>2</span>
+                    <span>3</span>
+                    <span>4</span>
+                    <span>5</span>
+                </p>
+            </div>
+            <br><br>
+
+            <!-- Input field for using social media while being distracted-->
+            <label for="distractedbysm">How often do you get distracted by social media when you are busy doing something?</label>
+            <div class="range-container">
+                <input type="range" id="distractedbysm" name="distractedbysm" min="1" max="5" step="1" onchange="showSize(this.value);">
+                <p class="slider-value" id="sliderValues">
+                    <span>1</span>
+                    <span>2</span>
+                    <span>3</span>
+                    <span>4</span>
+                    <span>5</span>
+                </p>
+            </div>
+            <br><br>
+
+            <!-- Input field for feeling restless from no social media-->
+            <label for="restlessfromnosm">Do you feel restless if you haven’t used social media in a while?</label>
+            <div class="range-container">
+                <input type="range" id="restlessfromnosm" name="restlessfromnosm" min="1" max="5" step="1" onchange="showSize(this.value);">
+                <p class="slider-value" id="sliderValues">
+                    <span>1</span>
+                    <span>2</span>
+                    <span>3</span>
+                    <span>4</span>
+                    <span>5</span>
+                </p>
+            </div>
+            <br><br>
+
+            <!-- Input field for overall distraction level-->
+            <label for="overalldistractionlevel">How easily distracted are you?</label>
+            <div class="range-container">
+                <input type="range" id="overalldistractionlevel" name="overalldistractionlevel" min="1" max="5" step="1" onchange="showSize(this.value);">
+                <p class="slider-value" id="sliderValues">
+                    <span>1</span>
+                    <span>2</span>
+                    <span>3</span>
+                    <span>4</span>
+                    <span>5</span>
+                </p>
+            </div>
+            <br><br>
+
+            <!-- Input field for overall worry level-->
+            <label for="overallworrylevel">How much are you bothered by worries? </label>
+            <div class="range-container">
+                <input type="range" id="overallworrylevel" name="overallworrylevel" min="1" max="5" step="1" onchange="showSize(this.value);">
+                <p class="slider-value" id="sliderValues">
+                    <span>1</span>
+                    <span>2</span>
+                    <span>3</span>
+                    <span>4</span>
+                    <span>5</span>
+                </p>
+            </div>
+            <br><br>
+
+            <!-- Input field for overall concentration level-->
+            <label for="overallconcentrationlevel">Do you find it difficult to concentrate on things? </label>
+            <div class="range-container">
+                <input type="range" id="overallconcentrationlevel" name="overallconcentrationlevel" min="1" max="5" step="1" onchange="showSize(this.value);">
+                <p class="slider-value" id="sliderValues">
+                    <span>1</span>
+                    <span>2</span>
+                    <span>3</span>
+                    <span>4</span>
+                    <span>5</span>
+                </p>
+            </div>
+            <br><br>
+
+            <!-- Input field for comparison level from social media-->
+            <label for="comparisonlevelsm">How often do you compare yourself to other successful people through the use of social media? </label>
+            <div class="range-container">
+                <input type="range" id="comparisonlevelsm" name="comparisonlevelsm" min="1" max="5" step="1" onchange="showSize(this.value);">
+                <p class="slider-value" id="sliderValues">
+                    <span>1</span>
+                    <span>2</span>
+                    <span>3</span>
+                    <span>4</span>
+                    <span>5</span>
+                </p>
+            </div>
+            <br><br>
+
+            <!-- Following the previous question, how do you feel about these comparisons, generally speaking? -->
+            <label for="feelingsoncomparisons">Following the previous question, how do you feel about these comparisons, generally speaking? </label>
+            <div class="range-container">
+                <input type="range" id="feelingsoncomparisons" name="feelingsoncomparisons" min="1" max="5" step="1" onchange="showSize(this.value);">
+                <p class="slider-value" id="sliderValues">
+                    <span>1</span>
+                    <span>2</span>
+                    <span>3</span>
+                    <span>4</span>
+                    <span>5</span>
+                </p>
+            </div>
+            <br>
+            <br>
+            <!-- How often do you look to seek validation from features of social media? -->
+            <label for="validationfrequencyfromsm">How often do you look to seek validation from features of social media? </label>
+            <div class="range-container">
+                <input type="range" id="validationfrequencyfromsm" name="validationfrequencyfromsm" min="1" max="5" step="1" onchange="showSize(this.value);">
+                <p class="slider-value" id="sliderValues">
+                    <span>1</span>
+                    <span>2</span>
+                    <span>3</span>
+                    <span>4</span>
+                    <span>5</span>
+                </p>
+            </div>
+            <br><br>
+
+            <!-- Input How often do you feel depressed or down? -->
+            <label for="depressionfrequency">How often do you feel depressed or down? </label>
+            <div class="range-container">
+                <input type="range" id="depressionfrequency" name="depressionfrequency" min="1" max="5" step="1" onchange="showSize(this.value);">
+                <p class="slider-value" id="sliderValues">
+                    <span>1</span>
+                    <span>2</span>
+                    <span>3</span>
+                    <span>4</span>
+                    <span>5</span>
+                </p>
+            </div>
+            <br><br>
+
+            <!-- How frequently does your interest in daily activities fluctuate?-->
+            <label for="interestindailyactivitiesfluctuate">How frequently does your interest in daily activities fluctuate? </label>
+            <div class="range-container">
+                <input type="range" id="interestindailyactivitiesfluctuate" name="interestindailyactivitiesfluctuate" min="1" max="5" step="1" onchange="showSize(this.value);">
+                <p class="slider-value" id="sliderValues">
+                    <span>1</span>
+                    <span>2</span>
+                    <span>3</span>
+                    <span>4</span>
+                    <span>5</span>
+                </p>
+            </div>
+            <br><br>
+
+            <!-- Input field how often to you face issued regarding sleep?-->
+            <label for="faceissuesregardingsleep">How often do you face issues regarding sleep? </label>
+            <div class="range-container">
+                <input type="range" id="faceissuesregardingsleep" name="faceissuesregardingsleep" min="1" max="5" step="1" onchange="showSize(this.value);">
+                <p class="slider-value" id="sliderValues">
+                    <span>1</span>
+                    <span>2</span>
+                    <span>3</span>
+                    <span>4</span>
+                    <span>5</span>
+                </p>
+            </div>
+            <br><br>
+
+            <form action="/add" method="post" onsubmit="return setTimestamp()">
+                <!-- Include a hidden input field for the timestamp -->
+                <input type="hidden" name="timestamp" id="timestamp">
+                <button type="submit">Submit Survey</button>
+            
+                <script>
+                    function setTimestamp() {
+                        // Get the current date and time
+                        const currentTimestamp = new Date().toISOString().slice(0, 19).replace("T", " ");
+            
+                        // Set the value of the hidden input field
+                        document.getElementById("timestamp").value = currentTimestamp;
+            
+                        // Return false to prevent the form from submitting immediately
+                        return false;
+                    }
+                </script>
+            </form>
+        </form>
+    </fieldset>
+    </div>
+</div>
+<script>
+</script>
+</body>
+</html>

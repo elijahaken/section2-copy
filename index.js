@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
-    secret: 'ProvoCity',
+    secret: 'Gl@cierlij73',
     resave: false,
     saveUninitialized: false
 }));
@@ -48,22 +48,19 @@ app.get('/', async (req, res) => {
 });
 
 // Protected route that requires authentication
+// Protected route that requires authentication
 app.get('/data', authenticateUser, async (req, res) => {
     try {
-        // Fetch data from the 'userinfo' table
         const data = await knex.select('*').from('userinfo');
-        
-        // Log the fetched data to the console
-        console.log('data:', data);
-
-        // Render the 'data' EJS template and pass the fetched data
+        console.log('data:', data); // Corrected logging statement
         res.render('data', { user: data });
     } catch (error) {
-        // Handle errors
         console.error('Error fetching or rendering data:', error.message);
         res.status(500).send(`Internal Server Error: ${error.message}`);
     }
 });
+
+
 
 // Route for displaying bucket list
 app.get('/bucket_list', authenticateUser, async (req, res) => {
@@ -209,14 +206,18 @@ app.post('/login', async (req, res) => {
                 const passwordMatch = await compare(password, user.password);
 
                 if (passwordMatch) {
-                    res.render('data', { user });
+                    // Set the user in the session
+                    req.session.user = user;
+                    res.redirect('/data');
                 } else {
                     res.status(401).send('Invalid username/password');
                 }
             } else {
                 // Compare non-hashed password
                 if (password === user.password) {
-                    res.render('data', { user });
+                    // Set the user in the session
+                    req.session.user = user;
+                    res.redirect('/data');
                 } else {
                     res.status(401).send('Invalid username/password');
                 }
@@ -229,6 +230,7 @@ app.post('/login', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
+
 
 
 

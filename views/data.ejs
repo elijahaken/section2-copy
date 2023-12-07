@@ -95,15 +95,8 @@
     <br>
     <br>
 
-    <form method="post" action="/deleteuser" style="margin-top: 10px;">
-        <label for="UserToDelete">Select User to Delete:</label>
-        <select name="userToDelete" required>
-            <% [user].forEach(user => { %>
-                <option value="<%= user.userid %>"><%= user.userid %></option>
-            <% }); %>
-        </select>
-        <button type="submit" style="margin-left: 10px;">Delete selected user</button>
-    </form>
+   
+    
     
     
     
