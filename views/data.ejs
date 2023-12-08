@@ -1,10 +1,39 @@
+<!-- Section 2 Group 14 -->
+<!--
+Group Members
+Elijah Aken
+Lily Tait
+Wing Yu Chu
+Caitlyn Stokes --> 
+<!--This is the login where Admins will be directed to when they succesfully logged in
+to view both survey and Employee Data-->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vacation</title>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Edit User Data</title>
+    <link rel="icon" type="image/x-icon" href="/logo copy.png" />
+    <link href="css/styles.css" rel="stylesheet" />
+    <script src="./filter.js"></script>
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+    
+</head>
+
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    
+    
+    <title>Edit User Data</title>
 
     <style>
         body {
@@ -46,89 +75,217 @@
     </style>
 </head>
 
-<body>
-   <!-- Your EJS template (data.ejs) -->
-   <h1>User Info List</h1>
-   <p>These are the users who have taken the survey so far in Provo.</p>
-   
-   <fieldset>
-       <% if (user.length > 0) { %>
-           <table>
-               <thead>
-                   <tr>
-                       <th>UserID</th>
-                       <th>Time Created</th>
-                       <th>Age</th>
-                       <th>Gender</th>
-                       <th>Relationship Status</th>
-                       <th>Occupation</th>
-                       <th>Location ID</th>
-                       <!-- Add additional columns here -->
-                       <th>Overall Distraction Level</th>
-                       <th>Overall Worry Level</th>
-                       <th>Overall Concentration Level</th>
-                       <th>Depression Frequency</th>
-                       <th>Interest in Daily Activities Fluctuate</th>
-                       <th>Face Issues Regarding Sleep</th>
-                       <th>SM Usage</th>
-                       <th>Average Time SM Per Day</th>
-                       <th>SM Without Purpose</th>
-                       <th>Distracted by SM</th>
-                       <th>Restless from No SM</th>
-                       <th>Comparison Level SM</th>
-                       <th>Feelings on Comparisons</th>
-                       <th>Validation Frequency from SM</th>
-                   </tr>
-               </thead>
-               <tbody>
-                   <% user.forEach(userinfo => { %>
-                       <tr>
-                           <td><%= userinfo.userid %></td>
-                           <td><%= userinfo.timestamp %></td>
-                           <td><%= userinfo.age %></td>
-                           <td><%= userinfo.gender %></td>
-                           <td><%= userinfo.relationshipstatus %></td>
-                           <td><%= userinfo.occupationstatus %></td>
-                           <td><%= userinfo.locationid %></td>
-                           <td><%= userinfo.overalldistractionlevel %></td>
-                           <td><%= userinfo.overallworrylevel %></td>
-                           <td><%= userinfo.overallconcentrationlevel %></td>
-                           <td><%= userinfo.depressionfrequency %></td>
-                           <td><%= userinfo.interestindailyactivitiesfluctuate %></td>
-                           <td><%= userinfo.faceissuesregardingsleep %></td>
-                           <td><%= userinfo.smusage %></td>
-                           <td><%= userinfo.averagetimesmperday %></td>
-                           <td><%= userinfo.smwithoutpurpose %></td>
-                           <td><%= userinfo.distractedbysm %></td>
-                           <td><%= userinfo.restlessfromnosm %></td>
-                           <td><%= userinfo.comparisonlevelsm %></td>
-                           <td><%= userinfo.feelingsoncomparisons %></td>
-                           <td><%= userinfo.validationfrequencyfromsm %></td>
-                       </tr>
-                   <% }); %>
-               </tbody>
-           </table>
-       <% } else { %>
-           <p>No user data available</p>
-       <% } %>
-   </fieldset>
-   
-       
-       
-   
-       <br>
-       <br>
-   
-       <a href="/add" style="text-decoration: none; padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">Take the Survey</a>
-   
-       <br>
+<body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+            <div class="container px-5">
+                <a class="navbar-brand" href="#page-top">
+                    <img class="navbar-brand-img" src="/Untitled design.png" alt="Logo">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="/login">Log In/Sign Up</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+    <!-- Your EJS template (data.ejs) -->
+   <br>
+   <br>
+   <br>
+   <br>
+    <h1>User Info List</h1>
+    <p>These are the users who have taken the survey so far in Provo.</p>
+
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+<br>
+
+<br>  
+    <fieldset width="100">
+        <% if (user.length > 0) { %>
+            <div class="outer-wrapper">
+                <div class="table-wrapper">
+                <table id="myTable">
+                <thead>
+                    <tr>
+                        <th>UserID</th>
+                        <th>Time Created
+                        </th>
+                        <th>Age
+                        </th>
+                        <th>Gender
+                        </th>
+                        <th>Relationship Status
+                        </th>
+                        <th>Occupation
+                        </th>
+                        <th>Location ID
+                        </th>
+                        <th>Overall Distraction Level
+                        </th>
+                        <th>Overall Worry Level
+                        </th>
+                        <th>Overall Concentration Level
+                        </th>
+                        <th>Depression Frequency
+                        </th>
+                        <th>Interest in Daily Activities Fluctuate
+                        </th>
+                        <th>Face Issues Regarding Sleep
+                        </th>
+                        <th>SM Usage
+                        </th>
+                        <th>Average Time SM Per Day
+                        </th>
+                        <th>SM Without Purpose
+                        </th>
+                        <th>Distracted by SM>
+                        </th>
+                        <th>Restless from No SM
+                        </th>
+                        <th>Comparison Level SM
+                        </th>
+                        <th>Feelings on Comparisons
+                        </th>
+                        <th>Validation Frequency from SM
+                        </th>
+                        <!-- Add other table headers as needed -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <% user.forEach(userinfo => { %>
+                        <tr>
+                            <td><%= userinfo.userid %></td>
+                            <td><%= userinfo.timestamp %></td>
+                            <td><%= userinfo.age %></td>
+                            <td><%= userinfo.gender %></td>
+                            <td><%= userinfo.relationshipstatus %></td>
+                            <td><%= userinfo.occupationstatus %></td>
+                            <td><%= userinfo.locationid %></td>
+                            <td><%= userinfo.overalldistractionlevel %></td>
+                            <td><%= userinfo.overallworrylevel %></td>
+                            <td><%= userinfo.overallconcentrationlevel %></td>
+                            <td><%= userinfo.depressionfrequency %></td>
+                            <td><%= userinfo.interestindailyactivitiesfluctuate %></td>
+                            <td><%= userinfo.faceissuesregardingsleep %></td>
+                            <td><%= userinfo.smusage %></td>
+                            <td><%= userinfo.averagetimesmperday %></td>
+                            <td><%= userinfo.smwithoutpurpose %></td>
+                            <td><%= userinfo.distractedbysm %></td>
+                            <td><%= userinfo.restlessfromnosm %></td>
+                            <td><%= userinfo.comparisonlevelsm %></td>
+                            <td><%= userinfo.feelingsoncomparisons %></td>
+                            <td><%= userinfo.validationfrequencyfromsm %></td>
+                            <!-- Add other table data as needed -->
+                            <td>
+                                <!-- Inline form for editing -->
+                                <form action="/data/edit/<%= userinfo.userid %>" method="get">
+                                    <!-- Assuming you want a button to trigger the form submission -->
+                                    <button type="submit">Edit</button>
+                                </form>
+                            </td>
+                        </tr>
+
+                        <!-- Inline form for editing user data -->
+                        <% if (editUserId && editUserId === userinfo.userid) { %>
+                            <tr>
+                                <td>
+                                    <!-- Inline form for editing -->
+                                    <form action="/data/edit/<%= userinfo.userid %>" method="post">
+                                        <!-- Your input fields for editing user data -->
+                                        <input type="text" name="editedAge" value="<%= userinfo.age %>">
+                                        <input type="text" name="editedGender" value="<%= userinfo.gender %>">
+                    
+                                        <!-- Assuming you want a button to submit the edited data -->
+                                        <button type="submit">Save Changes</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% } %>
+                    <% }); %>
+                </tbody>
+            </table>
+
+            <script>
+                function myFunction() {
+                  var input, filter, table, tr, td, i, txtValue;
+                  input = document.getElementById("myInput");
+                  filter = input.value.toUpperCase();
+                  table = document.getElementById("myTable");
+                  tr = table.getElementsByTagName("tr");
+                  for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[0];
+                    if (td) {
+                      txtValue = td.textContent || td.innerText;
+                      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                      } else {
+                        tr[i].style.display = "none";
+                      }
+                    }       
+                  }
+                }
+                window.onload = () => {
+                    console.log(document.querySelector("#myTable > tbody > tr:nth-child(1) > td:nth-child(2) ").innerHTML);
+                    };
+                
+                getUniqueValuesFromColumn()
+                        
+            </script>
+        <% } else { %>
+            <p>No user data available</p>
+        <% } %>
+    </fieldset>
+
+    <br>
+    <br>
+    <h1>Authentication Data</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Employee ID</th>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Email</th>
+                <th>Phone</th>
+                
+                <!-- Add other columns as needed -->
+            </tr>
+        </thead>
+        <tbody>
+            <% authenticationData.forEach(user => { %>
+                <tr>
+                    <td><%= user.member_id %></td>
+                    <td><%= user.username %></td>
+                    <td><%= user.password %></td>
+                    <td><%= user.email %></td>
+                    <td><%= user.phone %></td>
+                    <td>
+                        <!-- Inline form for editing -->
+                        <form action="/data/AdminEdit/<%= user.member_id %>" method="get">
+                            <!-- Assuming you want a button to trigger the form submission -->
+                            <button type="submit">Edit</button>
+                        </form>
+                    </td>
+                    <!-- Add other columns as needed -->
+                </tr>
+            <% }); %>
+        </tbody>
+        
+        
+    </table>
+    <br><br><br>
+    <a href="/add" style="text-decoration: none; padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">Take the Survey</a>
+
+    <br>
     <br>
 
-   
-    
-    
-    
-    
 </body>
+
+
+
 
 </html>

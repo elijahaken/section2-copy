@@ -1,0 +1,413 @@
+<!-- Section 2 Group 14 -->
+<!--
+Group Members
+Elijah Aken
+Lily Tait
+Wing Yu Chu
+Caitlyn Stokes --> 
+<!-- Edit page for CRUD -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Mental Health</title>
+    <link rel="icon" type="image/x-icon" href="/logo copy.png" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+ 
+</head>
+    <style>
+        body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        background-image: url('editbackground.jpg');
+        background-size: cover;
+        background-attachment: fixed;
+        }
+ 
+        h1 {
+        text-align: center;
+        color: #333;
+        }
+ 
+        .ACC {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        margin-top: 20px;
+        }
+ 
+        fieldset {
+        border: 2px solid #ccc;
+        border-radius: 8px;
+        margin: 10px;
+        padding: 10px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 260px; /* Slightly reduced width */
+        max-width: calc(100% - 20px); /* Adjusted maximum width */
+        overflow: hidden; /* Hides any content that overflows */
+        }
+ 
+        fieldset img {
+        opacity: 0.5; /* You can adjust the opacity value (0 being fully transparent, 1 being fully visible) */
+        }
+ 
+        legend {
+        font-weight: bold;
+        font-size: 1.2em;
+        color: #333;
+        }
+ 
+        label {
+        display: block;
+        margin-bottom: 8px;
+        color: #555;
+        }
+ 
+ 
+        input {
+        width: calc(100% - 16px);
+        padding: 5px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+        font-size: 14px;
+        border-radius:10px;
+        background-color: #fafafa;
+        border:0;
+        box-shadow:0 0 4px rgba(0,0,0,0.3);
+        transition: .3s box-shadow;
+        }
+ 
+        .input:hover {
+        box-shadow:0 0 4px rgba(57, 56, 56, 0.5);
+        }
+   
+ 
+        #outputMessage {
+        text-align: center;
+        margin-top: 20px;
+        color: orange;
+        font-size: 18px;
+        }
+ 
+        .form-container {
+            margin-top: 100px; /* Adjust this value to leave space for the navbar */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+ 
+
+/* CSS */
+ 
+ 
+.button-75 {
+  align-items: center;
+  background-image: linear-gradient(135deg, #817579 40%, #c4bdb9);
+  border: 0;
+  border-radius: 8px;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  font-family: "Codec cold",sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  height: 54px;
+  max-width: 100%;
+  text-decoration: none;
+  text-transform: uppercase;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  padding: 18px;
+}
+ 
+.button-75:active {
+  outline: 0;
+}
+ 
+.button-75:hover {
+  outline: 0;
+  background-image: linear-gradient(135deg, #b85979 40%, #c4bdb9);
+}
+ 
+.button-75 span {
+  transition: all 200ms;
+}
+ 
+.button-75:hover span {
+  transform: scale(.9);
+  opacity: .75;
+}
+ 
+.body2 {
+    margin-top: 100px; /* Adjust this value to move the dashboard down */
+}
+
+</style>
+ 
+<body id="page-top">
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+        <div class="container px-5">
+            <a class="navbar-brand" href="#page-top">
+                <img class="navbar-brand-img" src="/Untitled design.png" alt="Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/login">Log In/Sign Up</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+ 
+    <div class="edit-container">
+        <br><br><br><br><br>
+        <h1>Edit User Data</h1>
+        <fieldset style="margin: 0 auto; width: 500px;">
+            <form action="/data/edit/<%= user.userid %>" method="post">
+                <div class="edit-container">
+                    <!-- Assuming you want to display the user ID -->
+                    <label for="userid">UserID:</label>
+                    <input type="text" id="userid" name="userid" value="<%= user.userid %>" readonly>
+                    <br>
+                    <!-- Editable fields -->
+                    <label for="age">Age:</label>
+                    <input type="number" id="age" name="age" value="<%= user.age %>">
+                    <br><br>
+                    <label for="location">Location:</label>
+                    <select id="location" name="locationid">
+                        <option value="1" <%= user.locationid === 1 ? 'selected' : '' %>>Alpine</option>
+                        <option value="2" <%= user.locationid === 2 ? 'selected' : '' %>>American Fork</option>
+                        <option value="3" <%= user.locationid === 3 ? 'selected' : '' %>>Bluffdale South</option>
+                        <option value="4" <%= user.locationid === 4 ? 'selected' : '' %>>Cedar Fort</option>
+                        <option value="5" <%= user.locationid === 5 ? 'selected' : '' %>>Cedar Hills</option>
+                        <option value="6" <%= user.locationid === 6 ? 'selected' : '' %>>Draper South</option>
+                        <option value="7" <%= user.locationid === 7 ? 'selected' : '' %>>Eagle Mountain</option>
+                        <option value="8" <%= user.locationid === 8 ? 'selected' : '' %>>Elk Ridge</option>
+                        <option value="9" <%= user.locationid === 9 ? 'selected' : '' %>>Fairfield</option>
+                        <option value="10" <%= user.locationid === 10 ? 'selected' : '' %>>Genola</option>
+                        <option value="11" <%= user.locationid === 11 ? 'selected' : '' %>>Goshen</option>
+                        <option value="12" <%= user.locationid === 12 ? 'selected' : '' %>>Highland</option>
+                        <option value="13" <%= user.locationid === 13 ? 'selected' : '' %>>Lehi</option>
+                        <option value="14" <%= user.locationid === 14 ? 'selected' : '' %>>Lindon</option>
+                        <option value="15" <%= user.locationid === 15 ? 'selected' : '' %>>Mapleton</option>
+                        <option value="16" <%= user.locationid === 16 ? 'selected' : '' %>>Orem</option>
+                        <option value="17" <%= user.locationid === 17 ? 'selected' : '' %>>Payson</option>
+                        <option value="18" <%= user.locationid === 18 ? 'selected' : '' %>>Pleasant Grove</option>
+                        <option value="19" <%= user.locationid === 19 ? 'selected' : '' %>>Provo</option>
+                        <option value="20" <%= user.locationid === 20 ? 'selected' : '' %>>Salem</option>
+                        <option value="21" <%= user.locationid === 21 ? 'selected' : '' %>>Santaquin</option>
+                        <option value="22" <%= user.locationid === 22 ? 'selected' : '' %>>Saratoga Springs</option>
+                        <option value="23" <%= user.locationid === 23 ? 'selected' : '' %>>Spanish Fork</option>
+                        <option value="24" <%= user.locationid === 24 ? 'selected' : '' %>>Springville</option>
+                        <option value="25" <%= user.locationid === 25 ? 'selected' : '' %>>UT Data Ctr UT Co</option>
+                        <option value="26" <%= user.locationid === 26 ? 'selected' : '' %>>Utah County</option>
+                        <option value="27" <%= user.locationid === 27 ? 'selected' : '' %>>Vineyard</option>
+                        <option value="28" <%= user.locationid === 28 ? 'selected' : '' %>>Woodland Hills</option>
+                        <option value="29" <%= user.locationid === 29 ? 'selected' : '' %>>Plainsville</option>
+                    </select><br><br>
+                    
+                    <label for="gender">Gender:</label>
+                    <input type="text" id="gender" name="gender" value="<%= user.gender %>">
+                    <br><br>
+                    <label for="relationshipstatus">Relationship Status:</label>
+                    <input type="text" id="relationshipstatus" name="relationshipstatus" value="<%= user.relationshipstatus %>">
+                    <br><br>
+                    <label for="occupationstatus">Occupation:</label>
+                    <input type="text" id="occupationstatus" name="occupationstatus" value="<%= user.occupationstatus %>">
+                    <br><br>
+                    <label for="locationid">Location ID:</label>
+                    <input type="number" id="locationid" name="locationid" value="<%= user.locationid %>">
+                    <br><br>
+                    <label for="overalldistractionlevel">Overall Distraction Level:</label>
+                    <input type="number" id="overalldistractionlevel" name="overalldistractionlevel" value="<%= user.overalldistractionlevel %>">
+                    <br><br>
+                    <label for="overallworrylevel">Overall Worry Level:</label>
+                    <input type="number" id="overallworrylevel" name="overallworrylevel" value="<%= user.overallworrylevel %>">
+                    <br><br>
+                    <label for="overallconcentrationlevel">Overall Concentration Level:</label>
+                    <input type="number" id="overallconcentrationlevel" name="overallconcentrationlevel" value="<%= user.overallconcentrationlevel %>">
+                    <br><br>
+                    <label for="depressionfrequency">Depression Frequency:</label>
+                    <input type="number" id="depressionfrequency" name="depressionfrequency" value="<%= user.depressionfrequency %>">
+                    <br><br>
+                    <label for="interestindailyactivitiesfluctuate">Interest in Daily Activities Fluctuate:</label>
+                    <input type="text" id="interestindailyactivitiesfluctuate" name="interestindailyactivitiesfluctuate" value="<%= user.interestindailyactivitiesfluctuate %>">
+                    <br><br>
+                    <label for="faceissuesregardingsleep">Face Issues Regarding Sleep:</label>
+                    <input type="text" id="faceissuesregardingsleep" name="faceissuesregardingsleep" value="<%= user.faceissuesregardingsleep %>">
+                    <br><br>
+                    <label for="smusage">SM Usage:</label>
+                    <input type="text" id="smusage" name="smusage" value="<%= user.smusage %>">
+                    <br><br>
+                    <label for="averagetimesmperday">Average Time SM Per Day:</label>
+                    <input type="number" id="averagetimesmperday" name="averagetimesmperday" value="<%= user.averagetimesmperday %>">
+                    <br><br>
+                    <label for="smwithoutpurpose">SM Without Purpose:</label>
+                    <input type="text" id="smwithoutpurpose" name="smwithoutpurpose" value="<%= user.smwithoutpurpose %>">
+                    <br><br>
+                    <label for="distractedbysm">Distracted by SM:</label>
+                    <input type="text" id="distractedbysm" name="distractedbysm" value="<%= user.distractedbysm %>">
+                    <br><br>
+                    <label for="restlessfromnosm">Restless from No SM:</label>
+                    <input type="text" id="restlessfromnosm" name="restlessfromnosm" value="<%= user.restlessfromnosm %>">
+                    <br><br>
+                    <label for="comparisonlevelsm">Comparison Level SM:</label>
+                    <input type="text" id="comparisonlevelsm" name="comparisonlevelsm" value="<%= user.comparisonlevelsm %>">
+                    <br><br>
+                    <label for="feelingsoncomparisons">Feelings on Comparisons:</label>
+                    <input type="text" id="feelingsoncomparisons" name="feelingsoncomparisons" value="<%= user.feelingsoncomparisons %>">
+                    <br><br>
+                    <label for="validationfrequencyfromsm">Validation Frequency from SM:</label>
+                    <input type="text" id="validationfrequencyfromsm" name="validationfrequencyfromsm" value="<%= user.validationfrequencyfromsm %>">
+                    <br><br><br>
+                    <!-- Add other fields as needed -->
+                    <button type="submit">Save Changes</button>
+            </form>
+            <br>
+        </fieldset><br>
+        <br>
+    </div>
+   
+</body>
+</html>
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/styles.css" rel="stylesheet" />
+    <title>Edit User Data</title>
+</head>
+<body>
+    <h1>Edit User Data</h1>
+    <br>
+
+    <form action="/data/edit/<%= user.userid %>" method="post">
+        < Assuming you want to display the user ID -->
+        <!-- <label for="userid">UserID:</label>
+        <input type="text" id="userid" name="userid" value="<%= user.userid %>" readonly>
+        <br> -->
+        <!-- Editable fields -->
+        <!-- <label for="age">Age:</label>
+        <input type="number" id="age" name="age" value="<%= user.age %>">
+        <br><br>
+        <label for="location">Location:</label>
+        <select id="location" name="locationid">
+            <option value="1" <%= user.locationid === 1 ? 'selected' : '' %>>Alpine</option>
+            <option value="2" <%= user.locationid === 2 ? 'selected' : '' %>>American Fork</option>
+            <option value="3" <%= user.locationid === 3 ? 'selected' : '' %>>Bluffdale South</option>
+            <option value="4" <%= user.locationid === 4 ? 'selected' : '' %>>Cedar Fort</option>
+            <option value="5" <%= user.locationid === 5 ? 'selected' : '' %>>Cedar Hills</option>
+            <option value="6" <%= user.locationid === 6 ? 'selected' : '' %>>Draper South</option>
+            <option value="7" <%= user.locationid === 7 ? 'selected' : '' %>>Eagle Mountain</option>
+            <option value="8" <%= user.locationid === 8 ? 'selected' : '' %>>Elk Ridge</option>
+            <option value="9" <%= user.locationid === 9 ? 'selected' : '' %>>Fairfield</option>
+            <option value="10" <%= user.locationid === 10 ? 'selected' : '' %>>Genola</option>
+            <option value="11" <%= user.locationid === 11 ? 'selected' : '' %>>Goshen</option>
+            <option value="12" <%= user.locationid === 12 ? 'selected' : '' %>>Highland</option>
+            <option value="13" <%= user.locationid === 13 ? 'selected' : '' %>>Lehi</option>
+            <option value="14" <%= user.locationid === 14 ? 'selected' : '' %>>Lindon</option>
+            <option value="15" <%= user.locationid === 15 ? 'selected' : '' %>>Mapleton</option>
+            <option value="16" <%= user.locationid === 16 ? 'selected' : '' %>>Orem</option>
+            <option value="17" <%= user.locationid === 17 ? 'selected' : '' %>>Payson</option>
+            <option value="18" <%= user.locationid === 18 ? 'selected' : '' %>>Pleasant Grove</option>
+            <option value="19" <%= user.locationid === 19 ? 'selected' : '' %>>Provo</option>
+            <option value="20" <%= user.locationid === 20 ? 'selected' : '' %>>Salem</option>
+            <option value="21" <%= user.locationid === 21 ? 'selected' : '' %>>Santaquin</option>
+            <option value="22" <%= user.locationid === 22 ? 'selected' : '' %>>Saratoga Springs</option>
+            <option value="23" <%= user.locationid === 23 ? 'selected' : '' %>>Spanish Fork</option>
+            <option value="24" <%= user.locationid === 24 ? 'selected' : '' %>>Springville</option>
+            <option value="25" <%= user.locationid === 25 ? 'selected' : '' %>>UT Data Ctr UT Co</option>
+            <option value="26" <%= user.locationid === 26 ? 'selected' : '' %>>Utah County</option>
+            <option value="27" <%= user.locationid === 27 ? 'selected' : '' %>>Vineyard</option>
+            <option value="28" <%= user.locationid === 28 ? 'selected' : '' %>>Woodland Hills</option>
+            <option value="29" <%= user.locationid === 29 ? 'selected' : '' %>>Plainsville</option>
+        </select><br><br>
+        
+
+        <label for="gender">Gender:</label>
+        <input type="text" id="gender" name="gender" value="<%= user.gender %>">
+        <br><br>
+        <label for="relationshipstatus">Relationship Status:</label>
+        <input type="text" id="relationshipstatus" name="relationshipstatus" value="<%= user.relationshipstatus %>">
+        <br><br>
+        <label for="occupationstatus">Occupation:</label>
+        <input type="text" id="occupationstatus" name="occupationstatus" value="<%= user.occupationstatus %>">
+        <br><br>
+        <label for="locationid">Location ID:</label>
+        <input type="number" id="locationid" name="locationid" value="<%= user.locationid %>">
+        <br><br>
+        <label for="overalldistractionlevel">Overall Distraction Level:</label>
+        <input type="number" id="overalldistractionlevel" name="overalldistractionlevel" value="<%= user.overalldistractionlevel %>">
+        <br><br>
+        <label for="overallworrylevel">Overall Worry Level:</label>
+        <input type="number" id="overallworrylevel" name="overallworrylevel" value="<%= user.overallworrylevel %>">
+        <br><br>
+        <label for="overallconcentrationlevel">Overall Concentration Level:</label>
+        <input type="number" id="overallconcentrationlevel" name="overallconcentrationlevel" value="<%= user.overallconcentrationlevel %>">
+        <br><br>
+        <label for="depressionfrequency">Depression Frequency:</label>
+        <input type="number" id="depressionfrequency" name="depressionfrequency" value="<%= user.depressionfrequency %>">
+        <br><br>
+        <label for="interestindailyactivitiesfluctuate">Interest in Daily Activities Fluctuate:</label>
+        <input type="text" id="interestindailyactivitiesfluctuate" name="interestindailyactivitiesfluctuate" value="<%= user.interestindailyactivitiesfluctuate %>">
+        <br><br>
+        <label for="faceissuesregardingsleep">Face Issues Regarding Sleep:</label>
+        <input type="text" id="faceissuesregardingsleep" name="faceissuesregardingsleep" value="<%= user.faceissuesregardingsleep %>">
+        <br><br>
+        <label for="smusage">SM Usage:</label>
+        <input type="text" id="smusage" name="smusage" value="<%= user.smusage %>">
+        <br><br>
+        <label for="averagetimesmperday">Average Time SM Per Day:</label>
+        <input type="number" id="averagetimesmperday" name="averagetimesmperday" value="<%= user.averagetimesmperday %>">
+        <br><br>
+        <label for="smwithoutpurpose">SM Without Purpose:</label>
+        <input type="text" id="smwithoutpurpose" name="smwithoutpurpose" value="<%= user.smwithoutpurpose %>">
+        <br><br>
+        <label for="distractedbysm">Distracted by SM:</label>
+        <input type="text" id="distractedbysm" name="distractedbysm" value="<%= user.distractedbysm %>">
+        <br><br>
+        <label for="restlessfromnosm">Restless from No SM:</label>
+        <input type="text" id="restlessfromnosm" name="restlessfromnosm" value="<%= user.restlessfromnosm %>">
+        <br><br>
+        <label for="comparisonlevelsm">Comparison Level SM:</label>
+        <input type="text" id="comparisonlevelsm" name="comparisonlevelsm" value="<%= user.comparisonlevelsm %>">
+        <br><br>
+        <label for="feelingsoncomparisons">Feelings on Comparisons:</label>
+        <input type="text" id="feelingsoncomparisons" name="feelingsoncomparisons" value="<%= user.feelingsoncomparisons %>">
+        <br><br>
+        <label for="validationfrequencyfromsm">Validation Frequency from SM:</label>
+        <input type="text" id="validationfrequencyfromsm" name="validationfrequencyfromsm" value="<%= user.validationfrequencyfromsm %>">
+        <br><br><br> -->
+        <!-- Add other fields as needed -->
+        
+        <!-- <button type="submit">Save Changes</button>
+    </form>
+    
+
+    <br>
+
+    <a href="/data">Back to User Data</a>
+</body>
+</html> -->
+
