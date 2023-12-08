@@ -1,3 +1,11 @@
+<!-- Section 2 Group 14 -->
+<!--
+Group Members
+Elijah Aken
+Lily Tait
+Wing Yu Chu
+Caitlyn Stokes --> 
+<!-- Employee/admin login or signup page -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -113,23 +121,6 @@
         box-shadow:0 0 4px rgba(57, 56, 56, 0.5);
         }
         
-        /*
-        button {
-        padding: 4px;
-        font-size: 14px;
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-        background-color: #0056b3;
-        }
-
-        */
 
         #outputMessage {
         text-align: center;
@@ -349,6 +340,19 @@
                 showAlert("Invalid Access Key. Access Keys are provided to city and county employees of Provo.");
                 return false;
             }
+
+            const lowerCaseUserName = newUserName.toLowerCase();
+
+// Redirect based on username
+        if (lowerCaseUserName.includes('admin')) {
+            // Redirect to data.ejs
+            window.location.href = '/data';
+        } else {
+            // Redirect to data2.ejs
+            window.location.href = '/data2';
+        }
+
+
 
             // Check for duplicate username
             if (isDuplicateValue(newUserName, 'username')) {

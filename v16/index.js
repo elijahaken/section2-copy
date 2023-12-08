@@ -1,17 +1,9 @@
-// <!-- Section 2 Group 14 -->
-// <!--
-// Group Members
-// Elijah Aken
-// Lily Tait
-// Wing Yu Chu
-// Caitlyn Stokes --> 
-//this is our main connecting javascript so everything connects and runs correctly
 const express = require('express');
 const app = express();
 const path = require('path');
 const session = require('express-session');
 const port = process.env.PORT || 3000;
-const router = express.Router();
+
 
 const knex = require('knex')({
     client: 'pg',
@@ -29,10 +21,6 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
-const bodyParser = require('body-parser');
-
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
 
 app.use(session({
     secret: 'Gl@cierlij73',
@@ -59,17 +47,75 @@ app.get('/', async (req, res) => {
     }
 });
 
-// Route for displaying user data
+// Protected route that requires authentication
+// Protected route that requires authentication
+//app.get('/data', authenticateUser, async (req, res) => {
+  //  try {
+  //      const data = await knex.select('*').from('userinfo');
+  //      console.log('data:', data); // Corrected logging statement
+//    res.render('data', { user: data });
+  //  } catch (error) {
+  //      console.error('Error fetching or rendering data:', error.message);
+  //      res.status(500).send(`Internal Server Error: ${error.message}`);
+  ///  }
+//});
+
 app.get('/data', authenticateUser, async (req, res) => {
     try {
-        const data = await knex.select('*').from('userinfo');
-        console.log('data:', data); // Corrected logging statement
+        const query = knex
+            .select(
+                'userinfo.userid as userid',
+                'userinfo.age as age',
+                'userinfo.gender as gender',
+                'userinfo.relationshipstatus as relationshipstatus',
+                'userinfo.occupationstatus as occupationstatus',
+                'locationinfo.city as city',
+                'locationinfo.county as county',
+                'locationinfo.state as state',
+                'usersocialmediaplatforminfo.socialmediaplatformid as socialmediaplatformid',
+                'socialmediaplatforminfo.socialmediaplatform as socialmediaplatform',
+                'userorganizationaffiliationinfo.organizationaffiliationid as organizationaffiliationid',
+                'organizationaffinfo.organizationaffiliation as organizationaffiliation',
+                'overallresponseinfo.overalldistractionlevel as overalldistractionlevel',
+                'overallresponseinfo.overallworrylevel as overallworrylevel',
+                'overallresponseinfo.overallconcentrationlevel as overallconcentrationlevel',
+                'overallresponseinfo.depressionfrequency as depressionfrequency',
+                'overallresponseinfo.interestindailyactivitiesfluctuate as interestindailyactivitiesfluctuate',
+                'overallresponseinfo.faceissuesregardingsleep as faceissuesregardingsleep',
+                'socialmediaresponseinfo.smusage as smusage',
+                'socialmediaresponseinfo.averagetimesmperday as averagetimesmperday',
+                'socialmediaresponseinfo.smwithoutpurpose as smwithoutpurpose',
+                'socialmediaresponseinfo.distractedbysm as distractedbysm',
+                'socialmediaresponseinfo.restlessfromnosm as restlessfromnosm',
+                'socialmediaresponseinfo.comparisonlevelsm as comparisonlevelsm',
+                'socialmediaresponseinfo.feelingsoncomparisons as feelingsoncomparisons',
+                'socialmediaresponseinfo.validationfrequencyfromsm as validationfrequencyfromsm',
+                'userinfo.timestamp as timestamp'
+            )
+            .from('userinfo')
+            .innerJoin('locationinfo', 'userinfo.locationid', 'locationinfo.locationid')
+            .innerJoin('usersocialmediaplatforminfo', 'userinfo.userid', 'usersocialmediaplatforminfo.userid')
+            .innerJoin('socialmediaplatforminfo', 'usersocialmediaplatforminfo.socialmediaplatformid', 'socialmediaplatforminfo.socialmediaplatformid')
+            .innerJoin('userorganizationaffiliationinfo', 'userinfo.userid', 'userorganizationaffiliationinfo.userid')
+            .innerJoin('organizationaffinfo', 'userorganizationaffiliationinfo.organizationaffiliationid', 'organizationaffinfo.organizationaffiliationid')
+            .innerJoin('overallresponseinfo', 'userinfo.userid', 'overallresponseinfo.userid')
+            .innerJoin('socialmediaresponseinfo', 'userinfo.userid', 'socialmediaresponseinfo.userid');
+
+        const data = await query;
+
+        console.log('Generated SQL Query:', query.toSQL());
+        console.log('User Info Data:', data);
+
         res.render('data', { user: data });
     } catch (error) {
         console.error('Error fetching or rendering data:', error.message);
         res.status(500).send(`Internal Server Error: ${error.message}`);
     }
 });
+
+
+
+
 
 
 
@@ -88,8 +134,6 @@ app.get('/add', (req, res) => {
     res.render('add');
 });
 
-const { format } = require('date-fns');
-
 app.post('/add', async (req, res) => {
     console.log('Received data:', req.body);
 
@@ -102,7 +146,6 @@ app.post('/add', async (req, res) => {
             gender,
             relationshipstatus,
             occupationstatus,
-            locationid, // Added locationid to capture the selected location
             overalldistractionlevel,
             overallworrylevel,
             overallconcentrationlevel,
@@ -182,7 +225,6 @@ app.post('/add', async (req, res) => {
             validationfrequencyfromsm,
         });
 
-
         res.redirect('/thankyou');
     } catch (error) {
         console.error('Error adding data:', error.message);
@@ -190,13 +232,8 @@ app.post('/add', async (req, res) => {
     }
 });
 
-
 app.get('/thankyou', (req, res) => {
     res.render('thankyou');
-});
-
-app.get('/datatest', (req, res) => {
-    res.render('datatest');
 });
 
 // Route for rendering login page
@@ -207,11 +244,6 @@ app.get('/login', (req, res) => {
 // Route for rendering signup page
 app.get('/signup', (req, res) => {
     res.render('login');
-});
-
-// Route for rendering dashboard page
-app.get('/dashboard', (req, res) => {
-    res.render('dashboard');
 });
 
 const { compare } = require('bcrypt');
@@ -257,15 +289,17 @@ app.post('/login', async (req, res) => {
 });
 
 
+
+
 app.post('/signup', async (req, res) => {
-    const { access_key, username, password, email, phone } = req.body;
+    const { Access_key, username, password, email, phone } = req.body;
 
     try {
-        if (access_key !== 'ProvoCity') {
-            return res.status(400).send('Invalid access_key. Account not created.');
+        if (Access_key !== 'ProvoCity') {
+            return res.status(400).send('Invalid Access_key. Account not created.');
         }
 
-        const existingUser = await knex('authentication')
+        const existingUser = await knex('Authentication')
             .select('username', 'email', 'phone')
             .where('username', username)
             .orWhere('email', email)
@@ -282,12 +316,12 @@ app.post('/signup', async (req, res) => {
             return res.status(400).send(errorMessage);
         }
 
-        await knex('authentication').insert({
+        await knex('Authentication').insert({
             username,
             password, // Store password in plaintext
             email,
             phone,
-            access_key
+            Access_key
         });
 
         res.redirect('/login');
@@ -296,59 +330,6 @@ app.post('/signup', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
-
-app.get('/data/edit/:userid', authenticateUser, async (req, res) => {
-    try {
-        const userId = req.params.userid;
-
-        // Fetch user data for the specified user ID
-        const userData = await knex('userinfo').where('userid', userId).first();
-
-        if (!userData) {
-            // Handle case where user is not found
-            return res.status(404).send('User not found');
-        }
-
-        // Render the edit form with the user data
-        res.render('edit', { user: userData });
-    } catch (error) {
-        console.error('Error fetching user data for edit:', error.message);
-        res.status(500).send(`Internal Server Error: ${error.message}`);
-    }
-});
-
-// Route for handling the edited data submission
-app.post('/data/edit/:userid', authenticateUser, async (req, res) => {
-    try {
-        const userId = req.params.userid;
-
-        // Retrieve the edited data from the request body
-        const editedAge = req.body.editedAge;
-        const editedGender = req.body.editedGender;
-
-        // Update the user data in the database
-        await knex('userinfo').where('userid', userId).update({
-            age: editedAge,
-            gender: editedGender,
-            // Add other fields as needed
-        });
-
-        // Log the edited fields
-        console.log(`User ${userId} edited data:`, {
-            age: editedAge,
-            gender: editedGender,
-            // Add other fields as needed
-        });
-
-        // Redirect back to the user data page after editing
-        res.redirect('/data');
-    } catch (error) {
-        console.error('Error updating user data:', error.message);
-        res.status(500).send(`Internal Server Error: ${error.message}`);
-    }
-});
-
-
 
 
 // Route for deleting data from the "country" table
@@ -364,6 +345,8 @@ app.post('/deleteuser', (req, res) => {
             res.status(500).json({ err });
         });
 });
+
+
 
 // Start the server
 app.listen(port, () => console.log(`Server is running on port ${port}`));

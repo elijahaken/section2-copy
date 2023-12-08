@@ -1,0 +1,188 @@
+<!-- Section 2 Group 14 -->
+<!--
+Group Members
+Elijah Aken
+Lily Tait
+Wing Yu Chu
+Caitlyn Stokes --> 
+<!-- This displays the tableau dashboard -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Mental Health</title>
+    <link rel="icon" type="image/x-icon" href="/logo copy.png" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+</head>
+ 
+    <style>
+        body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        background-image: url('assets/img/5.jpg');
+        background-size: cover;
+        background-attachment: fixed;
+        }
+ 
+        h1 {
+        text-align: center;
+        color: #333;
+        }
+ 
+        .ACC {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        margin-top: 20px;
+        }
+ 
+        fieldset {
+        border: 2px solid #ccc;
+        border-radius: 8px;
+        margin: 10px;
+        padding: 10px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 260px; /* Slightly reduced width */
+        max-width: calc(100% - 20px); /* Adjusted maximum width */
+        overflow: hidden; /* Hides any content that overflows */
+        }
+ 
+        fieldset img {
+        opacity: 0.5; /* You can adjust the opacity value (0 being fully transparent, 1 being fully visible) */
+        }
+ 
+        legend {
+        font-weight: bold;
+        font-size: 1.2em;
+        color: #333;
+        }
+ 
+        label {
+        display: block;
+        margin-bottom: 8px;
+        color: #555;
+        }
+ 
+ 
+        input {
+        width: calc(100% - 16px);
+        padding: 5px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+        font-size: 14px;
+        border-radius:10px;
+        background-color: #fafafa;
+        border:0;
+        box-shadow:0 0 4px rgba(0,0,0,0.3);
+        transition: .3s box-shadow;
+        }
+ 
+        .input:hover {
+        box-shadow:0 0 4px rgba(57, 56, 56, 0.5);
+        }
+   
+ 
+        #outputMessage {
+        text-align: center;
+        margin-top: 20px;
+        color: orange;
+        font-size: 18px;
+        }
+ 
+        .form-container {
+            margin-top: 100px; /* Adjust this value to leave space for the navbar */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+ 
+ 
+ 
+ 
+ 
+/* CSS */
+ 
+ 
+.button-75 {
+  align-items: center;
+  background-image: linear-gradient(135deg, #817579 40%, #c4bdb9);
+  border: 0;
+  border-radius: 8px;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  font-family: "Codec cold",sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  height: 54px;
+  max-width: 100%;
+  text-decoration: none;
+  text-transform: uppercase;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  padding: 18px;
+}
+ 
+.button-75:active {
+  outline: 0;
+}
+ 
+.button-75:hover {
+  outline: 0;
+  background-image: linear-gradient(135deg, #b85979 40%, #c4bdb9);
+}
+ 
+.button-75 span {
+  transition: all 200ms;
+}
+ 
+.button-75:hover span {
+  transform: scale(.9);
+  opacity: .75;
+}
+ 
+.body2 {
+    margin-top: 100px; /* Adjust this value to move the dashboard down */
+}
+
+</style>
+ 
+<body id="page-top">
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+        <div class="container px-5">
+            <a class="navbar-brand" href="#page-top">
+                <img class="navbar-brand-img" src="/Untitled design.png" alt="Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/login">Log In/Sign Up</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+ 
+    <div class = "body2">
+        <div class='tableauPlaceholder' id='viz1701903749587' style='position: relative; margin: 0 auto; width: 1000px;'><noscript><a href='#'><img alt='Dashboard 1 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;So&#47;SocialMediaMentalHealth_17019024174130&#47;Dashboard1&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='SocialMediaMentalHealth_17019024174130&#47;Dashboard1' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;So&#47;SocialMediaMentalHealth_17019024174130&#47;Dashboard1&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='en-US' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1701903749587');                    var vizElement = divElement.getElementsByTagName('object')[0];                    if ( divElement.offsetWidth > 800 ) { vizElement.style.width='1000px';vizElement.style.height='1727px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='1000px';vizElement.style.height='1727px';} else { vizElement.style.width='100%';vizElement.style.height='2927px';}                     var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+    </div>
+   
+</body>
+</html>

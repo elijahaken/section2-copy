@@ -1,3 +1,12 @@
+<!-- Section 2 Group 14 -->
+<!--
+Group Members
+Elijah Aken
+Lily Tait
+Wing Yu Chu
+Caitlyn Stokes --> 
+<!-- this is where they are taking the survey 
+ it is open to users without signing in-->
 <html lang="en">
 
 <head>
@@ -281,6 +290,40 @@ text-align: center;
                     <option value="divorced">Divorced</option>
                 </select><br><br>
 
+                <!-- Input field for location -->
+                <label for="locationid">Select your location:</label>
+                <select id="locationid" name="locationid" required>
+                    <option value="1">Alpine</option>
+                    <option value="2">American Fork</option>
+                    <option value="3">Bluffdale South</option>
+                    <option value="4">Cedar Fort</option>
+                    <option value="5">Cedar Hills</option>
+                    <option value="6">Draper South</option>
+                    <option value="7">Eagle Mountain</option>
+                    <option value="8">Elk Ridge</option>
+                    <option value="9">Fairfield</option>
+                    <option value="10">Genola</option>
+                    <option value="11">Goshen</option>
+                    <option value="12">Highland</option>
+                    <option value="13">Lehi</option>
+                    <option value="14">Lindon</option>
+                    <option value="15">Mapleton</option>
+                    <option value="16">Orem</option>
+                    <option value="17">Payson</option>
+                    <option value="18">Pleasant Grove</option>
+                    <option value="19" selected>Provo</option>     
+                    <option value="20">Salem</option>
+                    <option value="21">Santaquin</option>
+                    <option value="22">Saratoga Springs</option>
+                    <option value="23">Spanish Fork</option>
+                    <option value="24">Springville</option>
+                    <option value="25">UT Data Ctr UT Co</option>
+                    <option value="26">Utah County</option>
+                    <option value="27">Vineyard</option>
+                    <option value="28">Woodland Hills</option>
+                    <option value="29">Plainsville</option>
+                </select><br><br>
+                
                 <!-- Input field for occupation status -->
                 <label for="occupationstatus">What is your primary occupation status?</label>
                 <select id="occupationstatus" name="occupationstatus" required>
@@ -291,13 +334,12 @@ text-align: center;
                 </select><br><br>
 
                 <!-- Input field for organization affiliations -->
-                <label for="organizationaffiliationid">What type of organizations are you affiliated with? (Select all that apply)</label>
+                <label for="organizationaffiliationid">What type of organizations are you affiliated with?</label>
                 <label><input type="checkbox" name="organizationaffiliationid" value="1"> School</label>
                 <label><input type="checkbox" name="organizationaffiliationid" value="2"> University </label>
                 <label><input type="checkbox" name="organizationaffiliationid" value="3"> Company</label>
                 <label><input type="checkbox" name="organizationaffiliationid" value="4"> Government </label>
                 <br>
-
 
                 <!-- Input field for social media use-->
                 <label for="smusage">Do you use social media?</label>
@@ -504,16 +546,17 @@ text-align: center;
             </div>
             <br><br>
 
-            <form method="post" action="/add" id="surveyForm" onsubmit="return setTimestamp()">
-                <!-- Input fields and other survey questions go here -->
-    
+            <form action="/add" method="post" onsubmit="return setTimestamp()">
                 <!-- Include a hidden input field for the timestamp -->
                 <input type="hidden" name="timestamp" id="timestamp">
     
                 <!-- Include a button to submit the form -->
                 <button type="submit">Submit Survey</button>
-            </form>
-           
+            
+                <script>
+                    function setTimestamp() {
+                        // Get the current date and time
+                        const currentTimestamp = new Date().toISOString().slice(0, 19).replace("T", " ");
             
 
         </form>
